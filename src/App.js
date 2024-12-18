@@ -93,7 +93,6 @@ const CarouselContainer = styled.div`
     transition: opacity 0.3s ease;
 
     > div {
-      border-radius: 15px;
       overflow: hidden;
     }
   }
@@ -102,6 +101,11 @@ const CarouselContainer = styled.div`
     opacity: 1;
     transform: scale(1.05);
     transition: all 0.3s ease;
+    
+    > div {
+      border-radius: 15px;
+      overflow: hidden;
+    }
   }
 
   .slick-list {
@@ -152,16 +156,12 @@ const GridCard = styled.div`
 
   .image-container {
     position: relative;
-    background: #e0e0e0;
     aspect-ratio: 16/9;
-    background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 2rem;
     text-align: center;
-    border-radius: 15px 15px 0 0;
   }
 
   .card-content {
@@ -339,10 +339,11 @@ const HackathonGrid = styled.div`
 `;
 
 const Footer = styled.footer`
-  padding: 4rem;
+  padding: 2rem 4rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: auto;
 `;
 
 const FooterLogo = styled.div`
@@ -562,4 +563,3 @@ function App() {
 }
 
 export default App;
-
