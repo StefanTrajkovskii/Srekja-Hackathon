@@ -24,44 +24,6 @@ const PageContainer = styled.div`
   font-family: 'Press Start 2P', cursive;
 `;
 
-const Header = styled.header`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 2rem 4rem;
-`;
-
-const Logo = styled.div`
-  color: white;
-  font-size: 1.2rem;
-  cursor: pointer;
-`;
-
-const Nav = styled.nav`
-  display: flex;
-  gap: 4rem;
-  align-items: center;
-`;
-
-const NavLink = styled.a`
-  font-family: 'Press Start 2P', cursive;
-  text-decoration: none;
-  font-size: 1rem;
-  cursor: pointer;
-
-  &.hackatons {
-    color: #FFD700;
-  }
-
-  &.users {
-    color: #00FF9D;
-  }
-
-  &.account {
-    color: #FF0000;
-  }
-`;
-
 const MainContent = styled.div`
   display: flex;
   justify-content: space-between;
@@ -312,22 +274,20 @@ const Copyright = styled.div`
 function HackathonDetails() {
   const navigate = useNavigate();
 
-  const handleBack = () => {
-    navigate('/');
-  };
-
   return (
     <>
       <GlobalStyle />
       <PageContainer>
-        <Header>
-          <Logo onClick={handleBack}>Hackathon Arena</Logo>
-          <Nav>
-            <NavLink className="hackatons">Hackatons</NavLink>
-            <NavLink className="users">Users</NavLink>
-            <NavLink className="account">Account</NavLink>
-          </Nav>
-        </Header>
+        <header className="flex justify-between items-center px-16 py-8">
+          <div className="text-xl text-white cursor-pointer whitespace-nowrap font-['Press_Start_2P']" onClick={() => navigate('/')}>
+            Hackathon Arena
+          </div>
+          <nav className="flex gap-16 items-center">
+            <a href="#about" className="font-['Press_Start_2P'] text-[#FFD700] hover:text-[#FFE44D] transition-colors" onClick={() => navigate('/hackathons')}>Hackatons</a>
+            <a href="#prizes" className="font-['Press_Start_2P'] text-[#00FF9D] hover:text-[#33FEB1] transition-colors" onClick={() => navigate('/users')}>Users</a>
+            <a href="#schedule" className="font-['Press_Start_2P'] text-[#FF0000] hover:text-[#FF3333] transition-colors" onClick={() => navigate('/account')}>Account</a>
+          </nav>
+        </header>
 
         <MainContent>
           <ContentWrapper>
