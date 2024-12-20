@@ -27,82 +27,11 @@ const AppContainer = styled.div`
   font-family: 'Press Start 2P', cursive;
 `;
 
-const HeroSection = styled.section`
-  text-align: center;
-  padding: 4rem 2rem;
-`;
-
-const HeroTitle = styled.h1`
-  font-family: 'Electrolize', sans-serif;
-  font-size: 2.5rem;
-  margin-bottom: 6rem;
-  margin-top: 4rem;
-  line-height: 1.4;
-  color: white;
-  font-weight: normal;
-`;
-
 const CarouselContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   position: relative;
   padding: 0;
-
-  .slick-slide {
-    padding: 0 60px;
-    opacity: 0.5;
-    transition: opacity 0.3s ease;
-
-    > div {
-      overflow: hidden;
-    }
-  }
-
-  .slick-center {
-    opacity: 1;
-    transform: scale(1.05);
-    transition: all 0.3s ease;
-    
-    > div {
-      border-radius: 15px;
-      overflow: hidden;
-    }
-  }
-
-  .slick-list {
-    margin: 0 -60px;
-  }
-
-  .slick-prev, .slick-next {
-    width: 50px;
-    height: 50px;
-    z-index: 1;
-    &:before {
-      content: '';
-      width: 30px;
-      height: 30px;
-      border: solid white;
-      border-width: 0 4px 4px 0;
-      display: inline-block;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-    }
-  }
-
-  .slick-prev {
-    left: calc(33.33% - 80px);
-    &:before {
-      transform: translate(-25%, -50%) rotate(135deg);
-    }
-  }
-
-  .slick-next {
-    right: calc(33.33% - 80px);
-    &:before {
-      transform: translate(-75%, -50%) rotate(-45deg);
-    }
-  }
 `;
 
 const GridCard = styled.div`
@@ -406,12 +335,62 @@ function App() {
           </nav>
         </header>
 
-        <HeroSection>
-          <HeroTitle>
+        <section className="text-center py-16 px-8">
+          <h1 className="font-['Electrolize'] text-4xl mb-24 mt-16 leading-relaxed text-white font-normal">
             Find Hackathons You Love. Code.<br />
             Connect. Conquer.
-          </HeroTitle>
+          </h1>
           <CarouselContainer>
+            <style jsx>{`
+              .slick-slide {
+                padding: 0 60px;
+                opacity: 0.5;
+                transition: opacity 0.3s ease;
+              }
+              .slick-slide > div {
+                overflow: hidden;
+              }
+              .slick-center {
+                opacity: 1;
+                transform: scale(1.05);
+                transition: all 0.3s ease;
+              }
+              .slick-center > div {
+                border-radius: 15px;
+                overflow: hidden;
+              }
+              .slick-list {
+                margin: 0 -60px;
+              }
+              .slick-prev, .slick-next {
+                width: 50px;
+                height: 50px;
+                z-index: 1;
+              }
+              .slick-prev:before, .slick-next:before {
+                content: '';
+                width: 30px;
+                height: 30px;
+                border: solid white;
+                border-width: 0 4px 4px 0;
+                display: inline-block;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+              }
+              .slick-prev {
+                left: calc(33.33% - 80px);
+              }
+              .slick-prev:before {
+                transform: translate(-25%, -50%) rotate(135deg);
+              }
+              .slick-next {
+                right: calc(33.33% - 80px);
+              }
+              .slick-next:before {
+                transform: translate(-75%, -50%) rotate(-45deg);
+              }
+            `}</style>
             <Slider {...settings}>
               {[1, 2, 3, 4].map((item) => (
                 <div key={item}>
@@ -435,7 +414,7 @@ function App() {
               ))}
             </Slider>
           </CarouselContainer>
-        </HeroSection>
+        </section>
 
         <StatsSection>
           <StatsTitle>Why participate in hackathons</StatsTitle>
