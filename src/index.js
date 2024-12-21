@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import HackathonDetails from './pages/HackathonDetails';
+import UserDetails from './pages/UserDetails';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -12,6 +13,7 @@ root.render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/hackathon" element={<HackathonDetails />} />
+        <Route path="/user" element={<UserDetails />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
