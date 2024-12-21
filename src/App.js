@@ -81,50 +81,66 @@ function App() {
 
       <section className="py-8 px-4">
         <h2 className="font-['Electrolize'] text-3xl mb-8 mt-8 text-center text-white font-normal">Why participate in hackathons</h2>
-        <div className="max-w-[1200px] mx-auto p-4 flex justify-around items-center bg-white/5 rounded-2xl">
-          <div className="flex flex-col items-center gap-2">
-            <div className="text-2xl font-['Press_Start_2P'] text-[#FFA500]">40%</div>
-            <div className="text-sm font-['Electrolize'] text-[#8a8b9f]">higher chances to land a job</div>
+        <div className="max-w-[1400px] mx-auto p-8 flex justify-around items-center bg-[#1E1B48] rounded-2xl border-[3px] border-[#2D236B]" style={{ boxShadow: "4px 4px 4px 0 rgba(0,0,0,0.25)" }}>
+          <div className="flex flex-col items-center gap-4">
+            <div className="text-[48px] font-['Press_Start_2P'] text-[#FFA500]">40%</div>
+            <div className="text-xl font-['Electrolize'] text-[#FFFFFF] max-w-[200px] text-center">higher chances to land a job</div>
           </div>
-          <div className="flex flex-col items-center gap-2">
-            <div className="text-2xl font-['Press_Start_2P'] text-[#00FF9D]">15</div>
-            <div className="text-sm font-['Electrolize'] text-[#8a8b9f]">new connections on average</div>
+          <svg width="4" height="100" viewBox="0 0 4 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="4" height="100" fill="white" fillOpacity="0.3"/>
+          </svg>
+          <div className="flex flex-col items-center gap-4">
+            <div className="text-[48px] font-['Press_Start_2P'] text-[#00FF9D]">15</div>
+            <div className="text-xl font-['Electrolize'] text-[#FFFFFF] max-w-[200px] text-center">new connections on average</div>
           </div>
-          <div className="flex flex-col items-center gap-2">
-            <div className="text-2xl font-['Press_Start_2P'] text-[#FF0000]">1</div>
-            <div className="text-sm font-['Electrolize'] text-[#8a8b9f]">new project in your cv</div>
+          <svg width="4" height="100" viewBox="0 0 4 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="4" height="100" fill="white" fillOpacity="0.3"/>
+          </svg>
+          <div className="flex flex-col items-center gap-4">
+            <div className="text-[48px] font-['Press_Start_2P'] text-[#FF0000]">1</div>
+            <div className="text-xl font-['Electrolize'] text-[#FFFFFF] max-w-[200px] text-center">new project in your cv</div>
           </div>
-          <div className="flex flex-col items-center gap-2">
-            <div className="text-2xl font-['Press_Start_2P'] text-[#FFD700]">50%</div>
-            <div className="text-sm font-['Electrolize'] text-[#8a8b9f]">in real world projects</div>
+          <svg width="4" height="100" viewBox="0 0 4 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="4" height="100" fill="white" fillOpacity="0.3"/>
+          </svg>
+          <div className="flex flex-col items-center gap-4">
+            <div className="text-[48px] font-['Press_Start_2P'] text-[#FFD700]">50%</div>
+            <div className="text-xl font-['Electrolize'] text-[#FFFFFF] max-w-[200px] text-center">in real world projects</div>
           </div>
-          <div className="flex flex-col items-center gap-2">
-            <div className="text-2xl font-['Press_Start_2P'] text-[#00BFFF]">10+</div>
-            <div className="text-sm font-['Electrolize'] text-[#8a8b9f]">skills learned every hackathon</div>
+          <svg width="4" height="100" viewBox="0 0 4 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="4" height="100" fill="white" fillOpacity="0.3"/>
+          </svg>
+          <div className="flex flex-col items-center gap-4">
+            <div className="text-[48px] font-['Press_Start_2P'] text-[#00BFFF]">10+</div>
+            <div className="text-xl font-['Electrolize'] text-[#FFFFFF] max-w-[200px] text-center">skills learned every hackathon</div>
           </div>
         </div>
 
-        <div className="max-w-[1200px] mx-auto p-4 flex justify-around items-center bg-white/5 rounded-2xl mt-8">
+        <div className="max-w-[1400px] mx-auto mt-8 p-6 flex justify-between items-center bg-[#1E1B48] rounded-2xl border-[3px] border-[#2D236B]" style={{ boxShadow: "4px 4px 4px 0 rgba(0,0,0,0.25)" }}>
           <div className="flex items-center gap-2">
-            <div className="text-sm font-['Electrolize'] text-[#0088FF]">Learn</div>
-            <div className="text-sm font-['Electrolize'] text-white">&</div>
-            <div className="text-sm font-['Electrolize'] text-white">improve skills</div>
+            <span className="text-[#0088FF] font-['Electrolize'] text-xl">Learn</span>
+            <span className="text-white font-['Electrolize'] text-xl">&</span>
+            <span className="text-white font-['Electrolize'] text-xl">improve skills</span>
           </div>
+          <div className="h-[40px] w-[2px] bg-white/30" />
           <div className="flex items-center gap-2">
-            <div className="text-sm font-['Electrolize'] text-white">Build you</div>
-            <div className="text-sm font-['Electrolize'] text-[#FF0000]">network</div>
+            <span className="text-white font-['Electrolize'] text-xl">Build you</span>
+            <span className="text-[#FF0000] font-['Electrolize'] text-xl">network</span>
           </div>
+          <div className="h-[40px] w-[2px] bg-white/30" />
           <div className="flex items-center gap-2">
-            <div className="text-sm font-['Electrolize'] text-white">Gain recognition</div>
-            <div className="text-sm font-['Electrolize'] text-white">&</div>
-            <div className="text-sm font-['Electrolize'] text-[#FFA500]">opportunities</div>
+            <span className="text-white font-['Electrolize'] text-xl">Gain recognition</span>
+            <span className="text-white font-['Electrolize'] text-xl">&</span>
+            <span className="text-[#FFA500] font-['Electrolize'] text-xl">opportunities</span>
           </div>
+          <div className="h-[40px] w-[2px] bg-white/30" />
           <div className="flex items-center gap-2">
-            <div className="text-sm font-['Electrolize'] text-[#00FF9D]">Challenge</div>
-            <div className="text-sm font-['Electrolize'] text-white">yourself</div>
+            <span className="text-[#00FF9D] font-['Electrolize'] text-xl">Challenge</span>
+            <span className="text-white font-['Electrolize'] text-xl">yourself</span>
           </div>
+          <div className="h-[40px] w-[2px] bg-white/30" />
           <div className="flex items-center gap-2">
-            <div className="text-sm font-['Electrolize'] text-[#FFD700]">Win prizes and have fun</div>
+            <span className="text-[#FFD700] font-['Electrolize'] text-xl">Win prizes and have fun</span>
           </div>
         </div>
       </section>
