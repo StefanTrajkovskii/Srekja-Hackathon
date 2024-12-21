@@ -4,6 +4,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import hackathonImage from './assets/image.png';
+import userAvatar from './assets/users_avatar.png';
 
 function App() {
   const navigate = useNavigate();
@@ -33,6 +34,10 @@ function App() {
     navigate('/hackathon');
   };
 
+  const handleViewProfile = () => {
+    navigate('/profile');
+  };
+
   return (
     <div className="bg-gradient-to-b from-[#17153B] to-[#2E236C] min-h-screen text-white font-['Press_Start_2P']">
       <header className="flex justify-between items-center px-16 py-8">
@@ -47,7 +52,7 @@ function App() {
       </header>
 
       <section className="text-center py-16 px-8">
-        <h1 className="font-['Electrolize'] text-4xl mb-24 mt-16 leading-relaxed text-white font-normal">
+        <h1 className="font-['Electrolize'] text-7xl mb-24 mt-16 leading-relaxed text-white font-normal">
           Find Hackathons You Love. Code.<br />
           Connect. Conquer.
         </h1>
@@ -67,7 +72,8 @@ function App() {
                         <div className="text-white/60 font-['Electrolize'] text-sm tracking-wider">City, Location</div>
                         <div className="text-white/60 font-['Electrolize'] text-sm tracking-wider">01/01/2025</div>
                       </div>
-                      <button onClick={handleEnterNow} className="bg-[#1E1B45] text-white px-6 py-2 rounded-lg font-['Press_Start_2P'] text-sm hover:bg-[#2A2B5F] transition-colors">
+                      <button onClick={handleEnterNow} className="bg-[#1E1B45] text-white px-6 py-2 rounded-lg font-['Press_Start_2P'] text-sm 
+                      hover:bg-[#2A2B5F] transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95">
                         Enter Now
                       </button>
                     </div>
@@ -80,7 +86,7 @@ function App() {
       </section>
 
       <section className="py-8 px-4">
-        <h2 className="font-['Electrolize'] text-3xl mb-8 mt-8 text-center text-white font-normal">Why participate in hackathons</h2>
+        <h2 className="font-['Electrolize'] text-6xl mb-24   mt-14 text-center text-white font-normal">Why participate in hackathons</h2>
         <div className="max-w-[1400px] mx-auto p-8 flex justify-around items-center bg-[#1E1B48] rounded-2xl border-[3px] border-[#2D236B]" style={{ boxShadow: "4px 4px 4px 0 rgba(0,0,0,0.25)" }}>
           <div className="flex flex-col items-center gap-4">
             <div className="text-[48px] font-['Press_Start_2P'] text-[#FFA500]">40%</div>
@@ -146,9 +152,42 @@ function App() {
       </section>
 
       <section className="py-16 px-8">
-        <h2 className="font-['Electrolize'] text-3xl mb-8 mt-8 text-center text-white font-normal">Find your hackathon</h2>
-        <div className="grid grid-cols-3 gap-8 max-w-[1200px] mx-auto">
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
+        <h2 className="font-['Electrolize'] text-6xl mb-8 mt-8 text-center text-white font-normal">Find your hackathon</h2>
+        
+        <div className="flex items-center justify-center gap-8 mb-16 mt-24">
+          <span className="font-['Press_Start_2P'] text-xl text-white">Filter by</span>
+          <button className="bg-white text-xl rounded-lg px-6 py-3 font-['Electrolize'] text-[#17153B] flex items-center gap-2 
+          hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95">
+            Newest
+            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </button>
+          <button className="bg-white text-xl rounded-lg px-6 py-3 font-['Electrolize'] text-[#17153B] flex items-center gap-2 
+          hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95">
+            Difficulty
+            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg"> hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95
+              <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </button>
+          <button className="bg-white text-xl rounded-lg px-6 py-3 font-['Electrolize'] text-[#17153B] flex items-center gap-2 
+          hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95">
+            Longest
+            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </button>
+          <button className="bg-white text-xl rounded-lg px-6 py-3 font-['Electrolize'] text-[#17153B] flex items-center gap-2 
+          hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95">
+            Capacity
+            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </button>
+        </div>
+
+        <div className="grid grid-cols-3 gap-24 max-w-[1200px] mx-auto">
+          {[1, 2, 3, 4, 5, 6].map((item) => (
             <div key={item} className="bg-white/10 rounded-2xl overflow-hidden flex flex-col relative backdrop-blur-md shadow-lg">
               <div className="relative aspect-video flex flex-col justify-center items-center text-center">
                 <img src={hackathonImage} alt="Hackathon" className="w-full h-full object-contain" />
@@ -161,11 +200,78 @@ function App() {
                     <div className="text-white/60 font-['Electrolize'] text-sm tracking-wider">City, Location</div>
                     <div className="text-white/60 font-['Electrolize'] text-sm tracking-wider">01/01/2025</div>
                   </div>
-                  <button onClick={handleEnterNow} className="bg-[#1E1B45] text-white px-6 py-2 rounded-lg font-['Press_Start_2P'] text-sm hover:bg-[#2A2B5F] transition-colors">
+                  <button onClick={handleEnterNow} className="bg-[#1E1B45] text-white px-6 py-2 rounded-lg font-['Press_Start_2P'] text-sm 
+                  hover:bg-[#2A2B5F] transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95">
                     Enter Now
                   </button>
                 </div>
               </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="py-16 px-8">
+        <h2 className="font-['Electrolize'] text-6xl mb-8 mt-8 text-center text-white font-normal">Connect with another user</h2>
+        
+        <div className="flex items-center justify-center gap-8 mb-16 mt-24">
+          <span className="font-['Press_Start_2P'] text-xl text-white">Filter by</span>
+          <button className="bg-white text-xl rounded-lg px-6 py-3 font-['Electrolize'] text-[#17153B] flex items-center gap-2 hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95">
+            Most Wins
+            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </button>
+          <button className="bg-white text-xl rounded-lg px-6 py-3 font-['Electrolize'] text-[#17153B] flex items-center gap-2 hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95">
+            Category
+            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </button>
+          <button className="bg-white text-xl rounded-lg px-6 py-3 font-['Electrolize'] text-[#17153B] flex items-center gap-2 hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95">
+            Skills
+            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </button>
+          <button className="bg-white text-xl rounded-lg px-6 py-3 font-['Electrolize'] text-[#17153B] flex items-center gap-2 hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95">
+            React
+            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </button>
+        </div>
+
+        <div className="grid grid-cols-3 gap-16 max-w-[1400px] mx-auto">
+          {[1, 2, 3, 4, 5, 6].map((item) => (
+            <div key={item} className="bg-[#1E1B48] rounded-3xl overflow-hidden flex flex-col items-center p-8 relative backdrop-blur-md shadow-lg border-[3px] border-[#2D236B] min-w-[380px]">
+              <div className="w-28 h-28 rounded-full overflow-hidden mb-6 bg-[#8BB9FF]">
+                <img src={userAvatar} alt="User" className="w-full h-full object-cover" />
+              </div>
+              <div className="text-center mb-6 w-[400px]">
+                <h3 className="font-['Press_Start_2P'] text-white text-base tracking-[0.2em]">John</h3>
+                <h3 className="font-['Press_Start_2P'] text-white text-base tracking-[0.2em]">Collins</h3>
+              </div>
+              <div className="font-['Press_Start_2P'] text-white/60 text-sm mb-8 text-center leading-6 tracking-[0.2em] w-[400px]">
+                Full-stack<br />
+                Web Developer<br />
+                3D Game<br />
+                Programming
+              </div>
+              <div className="flex justify-center gap-16 mb-8">
+                <div className="flex flex-col items-center">
+                  <span className="font-['Press_Start_2P'] text-[#0088FF] text-2xl mb-1">4</span>
+                  <span className="font-['Press_Start_2P'] text-white/60 text-[10px]">Participations</span>
+                </div>
+                <div className="flex flex-col items-center">
+                  <span className="font-['Press_Start_2P'] text-[#00FF9D] text-2xl mb-1">2</span>
+                  <span className="font-['Press_Start_2P'] text-white/60 text-[10px]">Wins</span>
+                </div>
+              </div>
+              <button onClick={handleViewProfile} className="bg-white text-[#17153B] w-40 py-2 rounded-lg font-['Press_Start_2P'] text-xs 
+              hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95">
+                Connect
+              </button>
             </div>
           ))}
         </div>
