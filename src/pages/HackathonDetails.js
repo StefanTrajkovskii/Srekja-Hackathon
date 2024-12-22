@@ -31,6 +31,30 @@ function HackathonDetails() {
           <img src={hackathonImage} alt="Hackathon" className="w-full h-[600px] object-cover rounded-3xl" />
         </div>
       </div>
+
+      <div className="flex justify-center mt-32">
+        <div className="bg-[#1E1B48] rounded-2xl p-8 flex justify-between items-center w-[1200px] border-[3px] border-[#2D236B]" style={{ boxShadow: "4px 4px 4px 0 rgba(0,0,0,0.25)" }}>
+          <div>
+            <div className="font-['Press_Start_2P'] text-[#00A3FF] text-xl mb-2">When?</div>
+            <div className="font-['Electrolize'] text-white text-xl">20-12-2024, 9am</div>
+          </div>
+          <div className="w-px h-12 bg-gray-700"></div>
+          <div>
+            <div className="font-['Press_Start_2P'] text-[#00FF9D] text-xl mb-2">Duration?</div>
+            <div className="font-['Electrolize'] text-white text-xl">48 hours</div>
+          </div>
+          <div className="w-px h-12 bg-gray-700"></div>
+          <div>
+            <div className="font-['Press_Start_2P'] text-[#FFD700] text-xl mb-2">Where?</div>
+            <div className="font-['Electrolize'] text-white text-xl">Srekja Bar, Skopje</div>
+          </div>
+          <div className="w-px h-12 bg-gray-700"></div>
+          <div>
+            <div className="font-['Press_Start_2P'] text-[#FF0000] text-xl mb-2">Difficulty?</div>
+            <div className="font-['Electrolize'] text-white text-xl">Advanced</div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
