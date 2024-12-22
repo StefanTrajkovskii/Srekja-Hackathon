@@ -14,7 +14,7 @@ function HackathonDetails() {
 
   return (
     <div className="min-h-screen text-white font-['Press_Start_2P'] bg-gradient-to-b from-[#17153B] to-[#2E236C]">
-      <header className="flex justify-between items-center p-16 relative">
+      <header className="flex relative justify-between items-center p-16">
         <div className="text-xl text-white cursor-pointer whitespace-nowrap font-['Press_Start_2P']" onClick={() => navigate('/')}>
           Hackathon Arena
         </div>
@@ -25,7 +25,7 @@ function HackathonDetails() {
         </nav>
       </header>
 
-      <div className="flex justify-between items-center px-16 py-24 gap-24">
+      <div className="flex gap-24 justify-between items-center px-16 py-32">
         <div className="w-1/2 flex flex-col justify-center h-[600px]">
           <h1 className="font-['Press_Start_2P'] text-5xl text-white mb-4">
             Hackathon Name
@@ -39,7 +39,7 @@ function HackathonDetails() {
         </div>
       </div>
 
-      <div className="flex justify-center mt-32 mb-32">
+      <div className="flex justify-center mt-32">
         <div className="bg-[#1E1B48] rounded-2xl p-8 flex justify-between items-center w-[1200px] border-[3px] border-[#2D236B]" style={{ boxShadow: "4px 4px 4px 0 rgba(0,0,0,0.25)" }}>
           <div>
             <div className="font-['Press_Start_2P'] text-[#00A3FF] text-xl mb-2">When?</div>
@@ -63,7 +63,7 @@ function HackathonDetails() {
         </div>
       </div>
 
-      <div className="flex justify-center mt-16">
+      <div className="flex justify-center mt-32">
         <div className="bg-[#1E1B48] rounded-[32px] p-16 w-[700px] border-[3px] border-[#2D236B]" style={{ boxShadow: "4px 4px 4px 0 rgba(0,0,0,0.25)" }}>
           <h2 className="font-['Press_Start_2P'] text-5xl text-white text-center mb-16">Start</h2>
           <form className="flex flex-col gap-6">
@@ -111,6 +111,16 @@ function HackathonDetails() {
           </form>
         </div>
       </div>
+
+      <footer className="flex justify-between items-center px-16 py-8 mt-32">
+        <div className="font-['Press_Start_2P'] text-white text-lg">Hackathon Arena</div>
+        <nav className="flex flex-col gap-4 items-center">
+          <a href="#about" className="font-['Press_Start_2P'] text-white hover:text-[#FFE44D] transition-colors" onClick={() => navigate('/hackathons')}>Hackatons</a>
+          <a href="#prizes" className="font-['Press_Start_2P'] text-white hover:text-[#33FEB1] transition-colors" onClick={() => navigate('/users')}>Users</a>
+          <a href="#schedule" className="font-['Press_Start_2P'] text-[#FF0000] hover:text-[#FF3333] transition-colors" onClick={() => navigate('/account')}>Account</a>
+        </nav>
+        <div className="font-['Press_Start_2P'] text-white text-sm">Copyright 2024</div>
+      </footer>
     </div>
   );
 }
