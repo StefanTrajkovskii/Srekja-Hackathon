@@ -1,14 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import hackathonImage from '../assets/image.png';
 import userAvatar from '../assets/users_avatar.png';
+import { getCurrentUser, logoutUser } from '../utils/auth';
 
 function App() {
   const navigate = useNavigate();
-  
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const user = getCurrentUser();
+    setIsLoggedIn(!!user);
+  }, []);
+
+  const handleLogout = () => {
+    logoutUser();
+    setIsLoggedIn(false);
+    navigate('/');
+  };
+
   const settings = {
     dots: false,
     infinite: true,
@@ -45,11 +58,34 @@ function App() {
           Hackathon Arena
         </div>
         <nav className="flex gap-16 items-center">
-          <a href="#about" className="font-['Press_Start_2P'] text-[#FFD700] hover:text-[#FFE44D] transition-colors" onClick={() => navigate('/hackathons')}>Hackatons</a>
-          <a href="#prizes" className="font-['Press_Start_2P'] text-[#00FF9D] hover:text-[#33FEB1] transition-colors" onClick={() => navigate('/users')}>Users</a>
-          <a href="#schedule" className="font-['Press_Start_2P'] text-[#FF0000] hover:text-[#FF3333] transition-colors" onClick={() => navigate('/account')}>Account</a>
-          <button className="font-['Press_Start_2P'] text-white bg-[#FF0000] hover:bg-[#FF3333] transition-colors px-6 py-2 rounded-lg" 
-            onClick={() => navigate('/register')}>Register</button>
+          {isLoggedIn ? (
+            <>
+              <a href="#about" className="font-['Press_Start_2P'] text-[#FFD700] hover:text-[#FFE44D] transition-colors" onClick={() => navigate('/hackathons')}>Hackatons</a>
+              <a href="#prizes" className="font-['Press_Start_2P'] text-[#00FF9D] hover:text-[#33FEB1] transition-colors" onClick={() => navigate('/users')}>Users</a>
+              <a href="#schedule" className="font-['Press_Start_2P'] text-[#FF0000] hover:text-[#FF3333] transition-colors" onClick={() => navigate('/account')}>Account</a>
+              <button 
+                onClick={handleLogout}
+                className="font-['Press_Start_2P'] text-white bg-[#FF0000] hover:bg-[#FF3333] transition-colors px-6 py-2 rounded-lg"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <button 
+                onClick={() => navigate('/login')}
+                className="font-['Press_Start_2P'] text-white bg-[#4A3AFF] hover:bg-[#7C3AFF] transition-colors px-6 py-2 rounded-lg"
+              >
+                Login
+              </button>
+              <button 
+                onClick={() => navigate('/register')}
+                className="font-['Press_Start_2P'] text-white bg-[#FF3A8C] hover:bg-[#FF3AFF] transition-colors px-6 py-2 rounded-lg"
+              >
+                Register
+              </button>
+            </>
+          )}
         </nav>
       </header>
 

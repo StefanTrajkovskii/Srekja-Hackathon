@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { registerUser } from '../utils/auth';
 
 function Register() {
+  const navigate = useNavigate();
   const [userType, setUserType] = useState('developer');
   const [focused, setFocused] = useState({});
+  const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     email: '',
     username: '',
@@ -26,7 +29,20 @@ function Register() {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
-  
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setError('');
+
+    try {
+      registerUser(formData);
+      // Redirect to home page after successful registration
+      navigate('/');
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
   return (
     <div className="h-screen bg-gradient-to-b from-[#17153B] to-[#2E236C] flex flex-col items-center justify-center">
       <div className="bg-[#1E1B48] rounded-3xl p-12 w-[580px] shadow-lg mb-8">
@@ -34,7 +50,13 @@ function Register() {
           Create account
         </h1>
 
-        <div className="space-y-4">
+        {error && (
+          <div className="bg-red-500 text-white p-3 rounded-lg mb-4 text-sm text-center font-['Press_Start_2P']">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div className="bg-[#17153B] rounded-2xl p-4">
             <input
               type="email"
@@ -126,43 +148,46 @@ function Register() {
               className={`w-full bg-transparent font-['Press_Start_2P'] text-white placeholder-white ${focused.skills || formData.skills ? 'text-left' : 'text-center'} focus:outline-none`}
             />
           </div>
-        </div>
 
-        <div className="flex bg-[#17153B] rounded-full p-1 mt-8 relative">
-          <div 
-            className={`absolute top-1 bottom-1 w-1/2 bg-white rounded-full transition-transform duration-300 ease-in-out ${
-              userType === 'organizer' ? 'translate-x-full' : 'translate-x-0'
-            }`}
-          />
-          <button
-            className={`flex-1 py-3 px-8 rounded-full font-['Press_Start_2P'] text-base transition-all relative z-10 ${
-              userType === 'developer'
+          <div className="flex bg-[#17153B] rounded-full p-1 mt-8 relative">
+            <div 
+              className={`absolute top-1 bottom-1 w-1/2 bg-white rounded-full transition-transform duration-300 ease-in-out ${
+                userType === 'organizer' ? 'translate-x-full' : 'translate-x-0'
+              }`}
+            />
+            <button
+              type="button"
+              className={`flex-1 py-3 px-8 rounded-full font-['Press_Start_2P'] text-base transition-all relative z-10 ${
+                userType === 'developer'
+                  ? 'text-[#17153B]'
+                  : 'text-[#666666] hover:text-white'
+                }`}
+              onClick={() => setUserType('developer')}
+            >
+              Developer
+            </button>
+            <button
+              type="button"
+              className={`flex-1 py-3 px-8 rounded-full font-['Press_Start_2P'] text-base transition-all relative z-10 ${
+                userType === 'organizer'
                 ? 'text-[#17153B]'
-                : 'text-[#666666] hover:text-white'
-              }`}
-            onClick={() => setUserType('developer')}
-          >
-            Developer
-          </button>
-          <button
-            className={`flex-1 py-3 px-8 rounded-full font-['Press_Start_2P'] text-base transition-all relative z-10 ${
-              userType === 'organizer'
-              ? 'text-[#17153B]'
-                : 'text-[#666666] hover:text-white'
-              }`}
+                  : 'text-[#666666] hover:text-white'
+                }`}
               onClick={() => setUserType('organizer')}
             >
-            Organizer
-          </button>
-        </div>
+              Organizer
+            </button>
+          </div>
 
-        <div className='flex justify-center mt-16'>        
-          <Link to="/login">
-            <button className="bg-gradient-to-r from-[#4A3AFF] to-[#7C3AFF] text-white font-['Press_Start_2P'] py-3 px-12 rounded-full transform transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(124,58,255,0.5)] active:scale-95">
+          <div className='flex justify-center mt-16'>        
+            <button 
+              type="submit"
+              className="mt-12 bg-gradient-to-r from-[#4A3AFF] to-[#7C3AFF] text-white font-['Press_Start_2P'] py-3 px-12 rounded-full transform transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(124,58,255,0.5)] active:scale-95"
+            >
               Create profile
             </button>
-          </Link>
-        </div>
+          </div>
+        </form>
       </div>
 
       <div className="flex justify-center gap-8 text-sm font-['Press_Start_2P'] text-white">

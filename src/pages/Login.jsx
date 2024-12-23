@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { loginUser } from '../utils/auth';
 
 function Login() {
   const [focused, setFocused] = useState({});
+  const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -23,6 +25,18 @@ function Login() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setError('');
+
+    try {
+      loginUser(formData);
+      navigate('/');
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
   return (
     <div className="h-screen bg-gradient-to-b from-[#17153B] to-[#2E236C] flex flex-col items-center">
       <div className="flex flex-1 justify-center items-center">
@@ -31,7 +45,13 @@ function Login() {
             Log in
           </h1>
 
-          <div className="space-y-4">
+          {error && (
+            <div className="bg-red-500 text-white p-3 rounded-lg mb-4 text-sm text-center font-['Press_Start_2P']">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div className="bg-[#17153B] rounded-2xl p-4">
               <input
                 type="text"
@@ -57,27 +77,30 @@ function Login() {
                 className={`w-full bg-transparent font-['Press_Start_2P'] text-white placeholder-white ${focused.password || formData.password ? 'text-left' : 'text-center'} focus:outline-none`}
               />
             </div>
-          </div>
 
-          <div className="mt-4 text-center">
-            <Link to="/forgot-password" className="text-[#00FF00] font-['Press_Start_2P'] text-sm hover:text-[#33FF33] transition-colors">
-              Forgot password?
-            </Link>
-          </div>
+            <div className="mt-4 text-center">
+              <Link to="/forgot-password" className="text-[#00FF00] font-['Press_Start_2P'] text-sm hover:text-[#33FF33] transition-colors">
+                Forgot password?
+              </Link>
+            </div>
 
-          <div className="flex gap-8 justify-center mt-16">
-            <Link to="/register">
-              <button className="bg-gradient-to-r from-[#FF3A8C] to-[#FF3AFF] text-white font-['Press_Start_2P'] py-3 px-12 rounded-full transform transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(255,58,255,0.5)] active:scale-95">
-                Sign Up
+            <div className="flex gap-8 justify-center mt-16">
+              <Link to="/register">
+                <button 
+                  type="button"
+                  className="bg-gradient-to-r from-[#FF3A8C] to-[#FF3AFF] text-white font-['Press_Start_2P'] py-3 px-12 rounded-full transform transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(255,58,255,0.5)] active:scale-95"
+                >
+                  Sign Up
+                </button>
+              </Link>
+              <button 
+                type="submit"
+                className="bg-gradient-to-r from-[#4A3AFF] to-[#7C3AFF] text-white font-['Press_Start_2P'] py-3 px-12 rounded-full transform transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(124,58,255,0.5)] active:scale-95"
+              >
+                Login
               </button>
-            </Link>
-            <button 
-              onClick={() => navigate('/')}
-              className="bg-gradient-to-r from-[#4A3AFF] to-[#7C3AFF] text-white font-['Press_Start_2P'] py-3 px-12 rounded-full transform transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(124,58,255,0.5)] active:scale-95"
-            >
-              Login
-            </button>
-          </div>
+            </div>
+          </form>
         </div>
       </div>
 
