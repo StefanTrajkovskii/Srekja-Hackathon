@@ -14,7 +14,7 @@ function HackathonDetails() {
 
   return (
     <div className="min-h-screen text-white font-['Press_Start_2P'] bg-gradient-to-b from-[#17153B] to-[#2E236C]">
-      <header className="flex relative justify-between items-center p-16">
+      <header className="flex relative justify-between items-center px-16 py-8">
         <div className="text-xl text-white cursor-pointer whitespace-nowrap font-['Press_Start_2P']" onClick={() => navigate('/')}>
           Hackathon Arena
         </div>
