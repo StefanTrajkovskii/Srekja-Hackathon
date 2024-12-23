@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import '../styles/slider.css';
 import hackathonImage from '../assets/image.png';
 import userAvatar from '../assets/users_avatar.png';
 import { getCurrentUser, logoutUser } from '../utils/auth';
@@ -29,18 +30,9 @@ function App() {
     slidesToShow: 3,
     slidesToScroll: 1,
     centerMode: true,
-    centerPadding: '0',
-    cssEase: 'cubic-bezier(0.4, 0, 0.2, 1)',
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          centerMode: true,
-        },
-      },
-    ],
+    centerPadding: '0px',
+    className: 'center',
+    arrows: true,
   };
 
   const handleEnterNow = () => {
@@ -109,13 +101,13 @@ function App() {
           Find Hackathons You Love. Code.<br />
           Connect. Conquer.
         </h1>
-        <div className="max-w-[1200px] mx-auto relative p-0">
+        <div className="max-w-[1400px] mx-auto relative px-24">
           <Slider {...settings}>
             {[1, 2, 3, 4].map((item) => (
-              <div key={item} className="px-[60px] opacity-50 transition-opacity duration-300 hover:opacity-100">
+              <div key={item} className="px-4">
                 <div className="flex overflow-hidden relative flex-col rounded-2xl shadow-lg backdrop-blur-md bg-white/10">
-                  <div className="flex relative flex-col justify-center items-center text-center aspect-video">
-                    <img src={hackathonImage} alt="Hackathon" className="object-contain w-full h-full" />
+                  <div className="relative w-full h-[300px]">
+                    <img src={hackathonImage} alt="Hackathon" className="object-cover absolute inset-0 w-full h-full" />
                     <div className="absolute top-4 right-4 bg-white/10 p-2 rounded-lg font-['Press_Start_2P'] text-sm text-white">FAQ</div>
                   </div>
                   <div className="bg-[rgba(44,43,88,0.95)] p-6 flex-grow flex flex-col gap-2 rounded-b-2xl">
@@ -219,7 +211,7 @@ function App() {
           <button className="bg-white text-xl rounded-lg px-6 py-3 font-['Electrolize'] text-[#17153B] flex items-center gap-2 
           hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95">
             Difficulty
-            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg"> hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95
+            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
             </svg>
           </button>
