@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import userAvatar from '../assets/users_avatar.png';
 import badgeIcon from '../assets/badge.svg';
 import checkmarkIcon from '../assets/checkmark.svg';
+import { getCurrentUser, logoutUser } from '../utils/auth';
 
 const SkillProgress = ({ skill, percentage, color }) => {
   return (
@@ -25,6 +26,18 @@ const SkillProgress = ({ skill, percentage, color }) => {
 
 const UserDetails = () => {
   const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const user = getCurrentUser();
+    setIsLoggedIn(!!user);
+  }, []);
+
+  const handleLogout = () => {
+    logoutUser();
+    setIsLoggedIn(false);
+    navigate('/');
+  };
 
   return (
     <div className="bg-gradient-to-b from-[#17153B] to-[#2E236C] min-h-screen text-white font-['Press_Start_2P']">
@@ -32,10 +45,50 @@ const UserDetails = () => {
         <div className="text-xl text-white cursor-pointer whitespace-nowrap font-['Press_Start_2P']" onClick={() => navigate('/')}>
           Hackathon Arena
         </div>
-        <nav className="flex gap-16 items-center">
-          <a href="#about" className="font-['Press_Start_2P'] text-[#FFD700] hover:text-[#FFE44D] transition-colors" onClick={() => navigate('/hackathons')}>Hackatons</a>
-          <a href="#prizes" className="font-['Press_Start_2P'] text-[#00FF9D] hover:text-[#33FEB1] transition-colors" onClick={() => navigate('/users')}>Users</a>
-          <a href="#schedule" className="font-['Press_Start_2P'] text-[#FF0000] hover:text-[#FF3333] transition-colors" onClick={() => navigate('/account')}>Account</a>
+        <nav className="flex gap-8 items-center">
+          {isLoggedIn ? (
+            <>
+              <button 
+                onClick={() => navigate('/hackathons')}
+                className="font-['Press_Start_2P'] text-[#FFD700] hover:text-[#FFE44D] transition-colors px-4 py-2 rounded-lg hover:bg-[#17153B]"
+              >
+                Hackathons
+              </button>
+              <button 
+                onClick={() => navigate('/users')}
+                className="font-['Press_Start_2P'] text-[#00FF9D] hover:text-[#33FEB1] transition-colors px-4 py-2 rounded-lg hover:bg-[#17153B]"
+              >
+                Users
+              </button>
+              <button 
+                onClick={() => navigate('/account')}
+                className="font-['Press_Start_2P'] text-[#FF3A8C] hover:text-[#FF3AFF] transition-colors px-4 py-2 rounded-lg hover:bg-[#17153B]"
+              >
+                Account
+              </button>
+              <button 
+                onClick={handleLogout}
+                className="font-['Press_Start_2P'] text-white bg-[#FF0000] hover:bg-[#FF3333] transition-colors px-6 py-2 rounded-lg hover:scale-105 transform duration-200"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <button 
+                onClick={() => navigate('/login')}
+                className="font-['Press_Start_2P'] text-white bg-[#4A3AFF] hover:bg-[#7C3AFF] transition-colors px-6 py-2 rounded-lg hover:scale-105 transform duration-200"
+              >
+                Login
+              </button>
+              <button 
+                onClick={() => navigate('/register')}
+                className="font-['Press_Start_2P'] text-white bg-gradient-to-r from-[#FF3A8C] to-[#FF3AFF] hover:from-[#FF3AFF] hover:to-[#FF3A8C] transition-all px-6 py-2 rounded-lg hover:scale-105 transform duration-200"
+              >
+                Register
+              </button>
+            </>
+          )}
         </nav>
       </header>
 

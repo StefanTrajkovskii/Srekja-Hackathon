@@ -47,8 +47,8 @@ function App() {
     navigate('/hackathon');
   };
 
-  const handleViewProfile = () => {
-    navigate('/profile');
+  const handleViewUser = () => {
+    navigate('/user');
   };
 
   return (
@@ -57,15 +57,30 @@ function App() {
         <div className="text-xl text-white cursor-pointer whitespace-nowrap font-['Press_Start_2P']" onClick={() => navigate('/')}>
           Hackathon Arena
         </div>
-        <nav className="flex gap-16 items-center">
+        <nav className="flex gap-8 items-center">
           {isLoggedIn ? (
             <>
-              <a href="#about" className="font-['Press_Start_2P'] text-[#FFD700] hover:text-[#FFE44D] transition-colors" onClick={() => navigate('/hackathons')}>Hackatons</a>
-              <a href="#prizes" className="font-['Press_Start_2P'] text-[#00FF9D] hover:text-[#33FEB1] transition-colors" onClick={() => navigate('/users')}>Users</a>
-              <a href="#schedule" className="font-['Press_Start_2P'] text-[#FF0000] hover:text-[#FF3333] transition-colors" onClick={() => navigate('/account')}>Account</a>
+              <button 
+                onClick={() => navigate('/hackathons')}
+                className="font-['Press_Start_2P'] text-[#FFD700] hover:text-[#FFE44D] transition-colors px-4 py-2 rounded-lg hover:bg-[#17153B]"
+              >
+                Hackathons
+              </button>
+              <button 
+                onClick={() => navigate('/users')}
+                className="font-['Press_Start_2P'] text-[#00FF9D] hover:text-[#33FEB1] transition-colors px-4 py-2 rounded-lg hover:bg-[#17153B]"
+              >
+                Users
+              </button>
+              <button 
+                onClick={() => navigate('/account')}
+                className="font-['Press_Start_2P'] text-[#FF3A8C] hover:text-[#FF3AFF] transition-colors px-4 py-2 rounded-lg hover:bg-[#17153B]"
+              >
+                Account
+              </button>
               <button 
                 onClick={handleLogout}
-                className="font-['Press_Start_2P'] text-white bg-[#FF0000] hover:bg-[#FF3333] transition-colors px-6 py-2 rounded-lg"
+                className="font-['Press_Start_2P'] text-white bg-[#FF0000] hover:bg-[#FF3333] transition-colors px-6 py-2 rounded-lg hover:scale-105 transform duration-200"
               >
                 Logout
               </button>
@@ -74,13 +89,13 @@ function App() {
             <>
               <button 
                 onClick={() => navigate('/login')}
-                className="font-['Press_Start_2P'] text-white bg-[#4A3AFF] hover:bg-[#7C3AFF] transition-colors px-6 py-2 rounded-lg"
+                className="font-['Press_Start_2P'] text-white bg-[#4A3AFF] hover:bg-[#7C3AFF] transition-colors px-6 py-2 rounded-lg hover:scale-105 transform duration-200"
               >
                 Login
               </button>
               <button 
                 onClick={() => navigate('/register')}
-                className="font-['Press_Start_2P'] text-white bg-[#FF3A8C] hover:bg-[#FF3AFF] transition-colors px-6 py-2 rounded-lg"
+                className="font-['Press_Start_2P'] text-white bg-gradient-to-r from-[#FF3A8C] to-[#FF3AFF] hover:from-[#FF3AFF] hover:to-[#FF3A8C] transition-all px-6 py-2 rounded-lg hover:scale-105 transform duration-200"
               >
                 Register
               </button>
@@ -306,7 +321,7 @@ function App() {
                   <span className="font-['Press_Start_2P'] text-white/60 text-[10px]">Wins</span>
                 </div>
               </div>
-              <button onClick={handleViewProfile} className="bg-white text-[#17153B] w-40 py-2 rounded-lg font-['Press_Start_2P'] text-xs 
+              <button onClick={handleViewUser} className="bg-white text-[#17153B] w-40 py-2 rounded-lg font-['Press_Start_2P'] text-xs 
               hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95">
                 Connect
               </button>
