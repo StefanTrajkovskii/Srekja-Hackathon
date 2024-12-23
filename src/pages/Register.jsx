@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function Register() {
   const [userType, setUserType] = useState('developer');
@@ -156,9 +157,11 @@ function Register() {
         </div>
 
         <div className='flex justify-center mt-16'>        
-          <button className="bg-gradient-to-r from-[#4A3AFF] to-[#7C3AFF] text-white font-['Press_Start_2P'] py-3 px-12 rounded-full transform transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(124,58,255,0.5)] active:scale-95">
-            Create profile
-          </button>
+          <Link to="/login">
+            <button className="bg-gradient-to-r from-[#4A3AFF] to-[#7C3AFF] text-white font-['Press_Start_2P'] py-3 px-12 rounded-full transform transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(124,58,255,0.5)] active:scale-95">
+              Create profile
+            </button>
+          </Link>
         </div>
       </div>
 
