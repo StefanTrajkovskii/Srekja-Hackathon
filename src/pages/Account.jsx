@@ -31,6 +31,7 @@ const Account = () => {
     participated: 0,
     wins: 0
   });
+  const [errorMessage, setErrorMessage] = useState('');
 
   const roleOptions = ['Full Stack', 'Frontend', 'Backend', 'UI/UX', 'DevOps', 'Mobile'];
   const experienceOptions = ['Beginner', 'Intermediate', 'Advanced', 'Expert'];
@@ -113,11 +114,41 @@ const Account = () => {
   };
 
   const handleStatsChange = (type, operation) => {
-    setStats(prev => ({
-      ...prev,
-      [type]: operation === 'add' ? prev[type] + 1 : Math.max(0, prev[type] - 1)
-    }));
+    setStats(prev => {
+      let newStats = { ...prev };
+
+      if (type === 'participated') {
+        // If reducing participated count, check if it would go below wins
+        if (operation === 'subtract' && prev.participated <= prev.wins) {
+          setErrorMessage('Participated count cannot be less than wins');
+          return prev;
+        }
+        newStats.participated = operation === 'add' ? 
+          prev.participated + 1 : 
+          Math.max(0, prev.participated - 1);
+      } else if (type === 'wins') {
+        // For wins, check if it would exceed participated count
+        if (operation === 'add' && prev.wins >= prev.participated) {
+          setErrorMessage('Wins cannot exceed participated hackathons');
+          return prev;
+        }
+        newStats.wins = operation === 'add' ? 
+          prev.wins + 1 : 
+          Math.max(0, prev.wins - 1);
+      }
+
+      // Clear error message when valid change occurs
+      setErrorMessage('');
+      return newStats;
+    });
   };
+
+  useEffect(() => {
+    if (errorMessage) {
+      const timer = setTimeout(() => setErrorMessage(''), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [errorMessage]);
 
   const handleSave = () => {
     // Basic validation
@@ -228,6 +259,11 @@ const Account = () => {
         {showSuccessMessage && (
           <div className="fixed top-24 right-8 bg-[#00FF9D] text-[#17153B] px-6 py-4 rounded-lg shadow-lg animate-fade-in">
             Profile updated successfully!
+          </div>
+        )}
+        {errorMessage && (
+          <div className="fixed top-24 right-8 bg-[#FF3A8C] text-white px-6 py-4 rounded-lg shadow-lg animate-fade-in">
+            {errorMessage}
           </div>
         )}
 
