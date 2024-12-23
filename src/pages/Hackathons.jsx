@@ -81,7 +81,7 @@ const Hackathons = () => {
                   onClick={() => navigate('/account')}
                 />
                 <span className="text-[#00FF9D] text-sm">
-                  {currentUser?.username}
+                  {currentUser?.username}{currentUser?.username === 'stif' ? ' (admin)' : ''}
                 </span>
               </div>
               <button 

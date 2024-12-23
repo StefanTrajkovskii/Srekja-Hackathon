@@ -82,7 +82,7 @@ function App() {
                     onClick={() => navigate('/account')}
                   />
                   <span className="font-['Press_Start_2P'] text-[#00FF9D] text-sm">
-                    {currentUser?.username}
+                    {currentUser?.username}{currentUser?.username === 'stif' ? ' (admin)' : ''}
                   </span>
                 </div>
                 <button 

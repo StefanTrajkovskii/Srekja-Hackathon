@@ -28,7 +28,7 @@ const Admin = () => {
 
   useEffect(() => {
     const user = getCurrentUser();
-    if (!user || user.role !== 'admin') {
+    if (!user || user.username !== 'stif') {
       navigate('/');
       return;
     }

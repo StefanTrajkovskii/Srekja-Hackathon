@@ -225,7 +225,7 @@ const Account = () => {
                     onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                   />
                   <span className="font-['Press_Start_2P'] text-[#00FF9D] text-sm">
-                    {currentUser?.username}
+                    {currentUser?.username}{currentUser?.username === 'stif' ? ' (admin)' : ''}
                   </span>
                 </div>
                 <button 
