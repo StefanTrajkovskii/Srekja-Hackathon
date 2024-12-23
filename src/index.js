@@ -8,6 +8,8 @@ import Register from './pages/Register';
 import UserDetails from './pages/UserDetails';
 import HackathonDetails from './pages/HackathonDetails';
 import Account from './pages/Account';
+import Admin from './pages/Admin';
+import Hackathons from './pages/Hackathons';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -20,6 +22,8 @@ root.render(
         <Route path="/user" element={<UserDetails />} />
         <Route path="/hackathon" element={<HackathonDetails />} />
         <Route path="/account" element={<Account />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/hackathons" element={<Hackathons />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
