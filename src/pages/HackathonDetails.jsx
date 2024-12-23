@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import hackathonImage from '../assets/image.png';
+import userAvatar from '../assets/users_avatar.png';
 import { getCurrentUser, logoutUser } from '../utils/auth';
 
 function HackathonDetails() {
@@ -56,9 +57,17 @@ function HackathonDetails() {
                 Account
               </button>
               <div className="flex items-center gap-4">
-                <span className="font-['Press_Start_2P'] text-[#00FF9D] text-sm">
-                  {currentUser?.username}
-                </span>
+                <div className="flex items-center gap-3">
+                  <img 
+                    src={currentUser?.profilePicture || userAvatar} 
+                    alt="Profile" 
+                    className="w-8 h-8 rounded-full border border-[#00FF9D] object-cover cursor-pointer hover:border-2 transition-all duration-200"
+                    onClick={() => navigate('/account')}
+                  />
+                  <span className="font-['Press_Start_2P'] text-[#00FF9D] text-sm">
+                    {currentUser?.username}
+                  </span>
+                </div>
                 <button 
                   onClick={handleLogout}
                   className="font-['Press_Start_2P'] text-white bg-[#FF0000] hover:bg-[#FF3333] transition-colors px-6 py-2 rounded-lg hover:scale-105 transform duration-200"
