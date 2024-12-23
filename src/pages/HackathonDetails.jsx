@@ -7,15 +7,18 @@ function HackathonDetails() {
   const navigate = useNavigate();
   const [focusedInput, setFocusedInput] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
     const user = getCurrentUser();
     setIsLoggedIn(!!user);
+    setCurrentUser(user);
   }, []);
 
   const handleLogout = () => {
     logoutUser();
     setIsLoggedIn(false);
+    setCurrentUser(null);
     navigate('/');
   };
 
@@ -52,12 +55,17 @@ function HackathonDetails() {
               >
                 Account
               </button>
-              <button 
-                onClick={handleLogout}
-                className="font-['Press_Start_2P'] text-white bg-[#FF0000] hover:bg-[#FF3333] transition-colors px-6 py-2 rounded-lg hover:scale-105 transform duration-200"
-              >
-                Logout
-              </button>
+              <div className="flex items-center gap-4">
+                <span className="font-['Press_Start_2P'] text-[#00FF9D] text-sm">
+                  {currentUser?.username}
+                </span>
+                <button 
+                  onClick={handleLogout}
+                  className="font-['Press_Start_2P'] text-white bg-[#FF0000] hover:bg-[#FF3333] transition-colors px-6 py-2 rounded-lg hover:scale-105 transform duration-200"
+                >
+                  Logout
+                </button>
+              </div>
             </>
           ) : (
             <>
