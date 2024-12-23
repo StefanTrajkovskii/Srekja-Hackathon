@@ -1,14 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './index.css';
-import App from './App';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import UserDetails from './pages/UserDetails';
+import HackathonDetails from './pages/HackathonDetails';
+import Account from './pages/Account';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/user" element={<UserDetails />} />
+        <Route path="/hackathon" element={<HackathonDetails />} />
+        <Route path="/account" element={<Account />} />
+      </Routes>
     </BrowserRouter>
   </React.StrictMode>
 );
