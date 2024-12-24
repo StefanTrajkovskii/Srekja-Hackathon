@@ -23,8 +23,27 @@ const Admin = () => {
     image: defaultHackathonImage,
     status: 'upcoming', // upcoming, active, completed
     prize: '',
+    city: '',
+    location: '',
     participants: []
   });
+
+  const resetForm = () => {
+    setFormData({
+      title: '',
+      description: '',
+      startDate: '',
+      endDate: '',
+      maxParticipants: 4,
+      skillsRequired: '',
+      image: defaultHackathonImage,
+      status: 'upcoming',
+      prize: '',
+      city: '',
+      location: '',
+      participants: []
+    });
+  };
 
   useEffect(() => {
     const user = getCurrentUser();
@@ -97,18 +116,7 @@ const Admin = () => {
     localStorage.setItem('hackathons', JSON.stringify(updatedHackathons));
     setHackathons(updatedHackathons);
     setShowForm(false);
-    setFormData({
-      title: '',
-      description: '',
-      startDate: '',
-      endDate: '',
-      maxParticipants: 4,
-      skillsRequired: '',
-      image: defaultHackathonImage,
-      status: 'upcoming',
-      prize: '',
-      participants: []
-    });
+    resetForm();
     showMessage('Hackathon added successfully!');
   };
 
@@ -197,18 +205,7 @@ const Admin = () => {
             onClick={() => {
               setShowForm(true);
               setIsEditing(false);
-              setFormData({
-                title: '',
-                description: '',
-                startDate: '',
-                endDate: '',
-                maxParticipants: 4,
-                skillsRequired: '',
-                image: defaultHackathonImage,
-                status: 'upcoming',
-                prize: '',
-                participants: []
-              });
+              resetForm();
             }}
             className="bg-[#00FF9D] hover:bg-[#00CC7D] text-[#17153B] px-6 py-3 rounded-lg transition-colors"
           >
@@ -263,6 +260,30 @@ const Admin = () => {
                         type="date"
                         name="endDate"
                         value={formatDateForInput(formData.endDate)}
+                        onChange={handleInputChange}
+                        className="w-full bg-[#2A2456] rounded-lg px-4 py-2 text-white border border-[#3D3580] focus:border-[#00FF9D] outline-none"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block mb-2 text-sm text-gray-400">City</label>
+                      <input
+                        type="text"
+                        name="city"
+                        value={formData.city}
+                        onChange={handleInputChange}
+                        className="w-full bg-[#2A2456] rounded-lg px-4 py-2 text-white border border-[#3D3580] focus:border-[#00FF9D] outline-none"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block mb-2 text-sm text-gray-400">Location</label>
+                      <input
+                        type="text"
+                        name="location"
+                        value={formData.location}
                         onChange={handleInputChange}
                         className="w-full bg-[#2A2456] rounded-lg px-4 py-2 text-white border border-[#3D3580] focus:border-[#00FF9D] outline-none"
                         required
@@ -371,6 +392,14 @@ const Admin = () => {
                     <div>
                       <p className="text-gray-400">Status:</p>
                       <p className="text-white capitalize">{hackathon.status}</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-400">City:</p>
+                      <p className="text-white">{hackathon.city}</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-400">Location:</p>
+                      <p className="text-white">{hackathon.location}</p>
                     </div>
                   </div>
                 </div>

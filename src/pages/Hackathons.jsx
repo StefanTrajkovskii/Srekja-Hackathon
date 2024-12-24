@@ -126,6 +126,14 @@ const Hackathons = () => {
                       <p className="text-white capitalize">{hackathon.status}</p>
                     </div>
                     <div>
+                      <p className="text-gray-400">City:</p>
+                      <p className="text-white">{hackathon.city}</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-400">Location:</p>
+                      <p className="text-white">{hackathon.location}</p>
+                    </div>
+                    <div>
                       <p className="text-gray-400">Prize:</p>
                       <p className="text-white">{hackathon.prize}</p>
                     </div>

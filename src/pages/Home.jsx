@@ -73,8 +73,8 @@ function App() {
               >
                 Account
               </button>
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-3">
+              <div className="flex gap-4 items-center">
+                <div className="flex gap-3 items-center">
                   <img 
                     src={currentUser?.profilePicture || userAvatar} 
                     alt="Profile" 
