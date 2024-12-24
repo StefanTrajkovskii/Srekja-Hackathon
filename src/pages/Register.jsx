@@ -47,15 +47,11 @@ function Register() {
   };
 
   const validateUsername = (username) => {
-    if (username.length < 3) {
-      return { isValid: false, message: 'Username must be at least 3 characters' };
-    }
-    if (!/^[a-zA-Z0-9_]+$/.test(username)) {
-      return { isValid: false, message: 'Username can only contain letters, numbers, and underscores' };
-    }
-    if (checkUsernameExists(username)) {
-      return { isValid: false, message: 'Username is already taken' };
-    }
+    if (!username) return { isValid: false, message: 'Username is required' };
+    if (username.length < 3) return { isValid: false, message: 'Username must be at least 3 characters' };
+    if (username.length > 10) return { isValid: false, message: 'Username must be 10 characters or less' };
+    if (!/^[a-zA-Z0-9_]+$/.test(username)) return { isValid: false, message: 'Username can only contain letters, numbers, and underscores' };
+    if (checkUsernameExists(username)) return { isValid: false, message: 'Username is already taken' };
     return { isValid: true, message: '' };
   };
 
@@ -174,7 +170,9 @@ function Register() {
             <input
               type="text"
               name="username"
-              placeholder={!focused.username ? "Username" : ""}
+              minLength={3}
+              maxLength={10}
+              placeholder={!focused.username ? "Username (3-10 characters)" : ""}
               value={formData.username}
               onChange={handleChange}
               onFocus={() => handleFocus('username')}
