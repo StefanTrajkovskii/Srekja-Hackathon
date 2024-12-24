@@ -20,7 +20,8 @@ const Admin = () => {
     endDate: '',
     maxParticipants: 4,
     skillsRequired: '',
-    image: defaultHackathonImage,
+    imageUrl: '',
+    image: null,
     status: 'upcoming',
     prize: '',
     city: '',
@@ -38,7 +39,8 @@ const Admin = () => {
       endDate: '',
       maxParticipants: 4,
       skillsRequired: '',
-      image: defaultHackathonImage,
+      imageUrl: '',
+      image: null,
       status: 'upcoming',
       prize: '',
       city: '',
@@ -46,6 +48,45 @@ const Admin = () => {
       difficulty: 'Intermediate',
       duration: '48 hours',
       participants: []
+    });
+  };
+
+  const compressImage = (file) => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const MAX_WIDTH = 800;
+          const MAX_HEIGHT = 600;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width *= MAX_HEIGHT / height;
+              height = MAX_HEIGHT;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          
+          // Compress to JPEG with 0.7 quality
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+          resolve(compressedDataUrl);
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
     });
   };
 
@@ -80,15 +121,23 @@ const Admin = () => {
   };
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, files } = e.target;
     if (name === 'startDate' || name === 'endDate') {
-      // Convert from YYYY-MM-DD to DD/MM/YYYY
       const [year, month, day] = value.split('-');
       const formattedDate = `${day}/${month}/${year}`;
       setFormData(prev => ({
         ...prev,
         [name]: formattedDate
       }));
+    } else if (name === 'image' && files && files[0]) {
+      const file = files[0];
+      compressImage(file).then(compressedDataUrl => {
+        setFormData(prev => ({
+          ...prev,
+          imageUrl: compressedDataUrl,
+          image: file
+        }));
+      });
     } else {
       setFormData(prev => ({
         ...prev,
@@ -109,19 +158,28 @@ const Admin = () => {
 
   const handleAddHackathon = (e) => {
     e.preventDefault();
-    const newHackathon = {
-      ...formData,
-      id: Date.now().toString(),
-      createdAt: new Date().toISOString(),
-      participants: []
-    };
+    try {
+      const newHackathon = {
+        ...formData,
+        id: Date.now().toString(),
+        createdAt: new Date().toISOString(),
+        participants: [],
+        image: formData.imageUrl || defaultHackathonImage
+      };
 
-    const updatedHackathons = [...hackathons, newHackathon];
-    localStorage.setItem('hackathons', JSON.stringify(updatedHackathons));
-    setHackathons(updatedHackathons);
-    setShowForm(false);
-    resetForm();
-    showMessage('Hackathon added successfully!');
+      const updatedHackathons = [...hackathons, newHackathon];
+      localStorage.setItem('hackathons', JSON.stringify(updatedHackathons));
+      setHackathons(updatedHackathons);
+      setShowForm(false);
+      resetForm();
+      showMessage('Hackathon added successfully!');
+    } catch (error) {
+      if (error.name === 'QuotaExceededError') {
+        showMessage('Error: Image is too large. Please use a smaller image.');
+      } else {
+        showMessage('Error adding hackathon. Please try again.');
+      }
+    }
   };
 
   const handleEditHackathon = (hackathon) => {
@@ -252,9 +310,9 @@ const Admin = () => {
                       <input
                         type="date"
                         name="startDate"
-                        value={formatDateForInput(formData.startDate)}
+                        value={formData.startDate ? formatDateForInput(formData.startDate) : ''}
                         onChange={handleInputChange}
-                        className="w-full bg-[#2A2456] rounded-lg px-4 py-2 text-white border border-[#3D3580] focus:border-[#00FF9D] outline-none"
+                        className="w-full bg-transparent text-white/70 outline-none"
                         required
                       />
                     </div>
@@ -263,9 +321,9 @@ const Admin = () => {
                       <input
                         type="date"
                         name="endDate"
-                        value={formatDateForInput(formData.endDate)}
+                        value={formData.endDate ? formatDateForInput(formData.endDate) : ''}
                         onChange={handleInputChange}
-                        className="w-full bg-[#2A2456] rounded-lg px-4 py-2 text-white border border-[#3D3580] focus:border-[#00FF9D] outline-none"
+                        className="w-full bg-transparent text-white/70 outline-none"
                         required
                       />
                     </div>
@@ -374,6 +432,25 @@ const Admin = () => {
                       <option value="active">Active</option>
                       <option value="completed">Completed</option>
                     </select>
+                  </div>
+                  <div className="bg-[#17153B] rounded-[24px] p-5 mb-6">
+                    <div className="flex flex-col gap-4">
+                      <label className="text-[#00FF9D] text-sm">Hackathon Image (Max size: 2MB, Recommended: 800x600px)</label>
+                      <input 
+                        type="file" 
+                        name="image"
+                        accept="image/*"
+                        onChange={handleInputChange}
+                        className="text-white/70"
+                      />
+                      {formData.imageUrl && (
+                        <img 
+                          src={formData.imageUrl} 
+                          alt="Preview" 
+                          className="w-full h-[300px] object-cover rounded-lg mt-2"
+                        />
+                      )}
+                    </div>
                   </div>
                 </div>
                 <div className="flex gap-4 justify-end mt-8">

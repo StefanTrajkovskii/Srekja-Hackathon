@@ -74,6 +74,18 @@ const Hackathons = () => {
     setShowParticipants(true);
   };
 
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    // If it's already in DD/MM/YYYY format, return as is
+    if (dateString.includes('/')) return dateString;
+    
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
   return (
     <div className="bg-gradient-to-b from-[#17153B] to-[#2E236C] min-h-screen text-white font-['Press_Start_2P']">
       <header className="flex justify-between items-center px-16 py-8">
@@ -164,11 +176,11 @@ const Hackathons = () => {
                   <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
                     <div>
                       <p className="text-gray-400">Start Date:</p>
-                      <p className="text-white">{hackathon.startDate}</p>
+                      <p className="text-white">{formatDate(hackathon.startDate)}</p>
                     </div>
                     <div>
                       <p className="text-gray-400">End Date:</p>
-                      <p className="text-white">{hackathon.endDate}</p>
+                      <p className="text-white">{formatDate(hackathon.endDate)}</p>
                     </div>
                     <div>
                       <p className="text-gray-400">Participants:</p>
@@ -269,10 +281,9 @@ const Hackathons = () => {
                     <div className="flex justify-between items-center">
                       <div>
                         <div className="text-[#00FF9D] mb-1">{participant.username}</div>
-                        <div className="text-sm text-gray-400">{participant.email}</div>
                       </div>
                       <div className="text-sm text-gray-400">
-                        Joined: {new Date(participant.joinedAt).toLocaleDateString()}
+                        Joined: {formatDate(participant.joinedAt)}
                       </div>
                     </div>
                   </div>

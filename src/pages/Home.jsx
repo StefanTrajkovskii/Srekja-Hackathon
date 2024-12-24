@@ -53,6 +53,18 @@ function App() {
     navigate('/user');
   };
 
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    // If it's already in DD/MM/YYYY format, return as is
+    if (dateString.includes('/')) return dateString;
+    
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
   return (
     <div className="bg-gradient-to-b from-[#17153B] to-[#2E236C] min-h-screen text-white font-['Press_Start_2P']">
       <header className="flex justify-between items-center px-16 py-8">
@@ -138,7 +150,7 @@ function App() {
                     <div className="flex justify-between items-end mt-auto">
                       <div className="flex flex-col gap-2">
                         <div className="text-white/60 font-['Electrolize'] text-sm tracking-wider">{hackathon.city}, {hackathon.location}</div>
-                        <div className="text-white/60 font-['Electrolize'] text-sm tracking-wider">{hackathon.startDate}</div>
+                        <div className="text-white/60 font-['Electrolize'] text-sm tracking-wider">{formatDate(hackathon.startDate)}</div>
                       </div>
                       <button 
                         onClick={() => handleEnterNow(hackathon)} 

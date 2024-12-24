@@ -36,6 +36,18 @@ function HackathonDetails() {
     members: "Tag your team members"
   };
 
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    // If it's already in DD/MM/YYYY format, return as is
+    if (dateString.includes('/')) return dateString;
+    
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
   return (
     <div className="min-h-screen text-white font-['Press_Start_2P'] bg-gradient-to-b from-[#17153B] to-[#2E236C]">
       <header className="flex justify-between items-center px-16 py-8">
@@ -112,7 +124,11 @@ function HackathonDetails() {
           </p>
         </div>
         <div className="w-1/2">
-          <img src={hackathonImage} alt="Hackathon" className="w-full h-[600px] object-cover rounded-3xl" />
+          <img 
+            src={hackathon?.image || hackathonImage} 
+            alt={hackathon?.title || 'Hackathon'} 
+            className="w-full h-[600px] object-cover rounded-3xl shadow-lg" 
+          />
         </div>
       </div>
 
@@ -120,7 +136,7 @@ function HackathonDetails() {
         <div className="bg-[#1E1B48] rounded-2xl p-8 flex justify-between items-center w-[1200px] border-[3px] border-[#2D236B]" style={{ boxShadow: "4px 4px 4px 0 rgba(0,0,0,0.25)" }}>
           <div>
             <div className="font-['Press_Start_2P'] text-[#00A3FF] text-xl mb-2">When?</div>
-            <div className="font-['Electrolize'] text-white text-xl">{hackathon?.startDate || '20-12-2024, 9am'}</div>
+            <div className="font-['Electrolize'] text-white text-xl">{formatDate(hackathon?.startDate) || '20/12/2024'}</div>
           </div>
           <div className="w-px h-12 bg-gray-700"></div>
           <div>
