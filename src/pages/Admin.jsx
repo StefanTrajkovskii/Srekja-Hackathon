@@ -448,16 +448,16 @@ const Admin = () => {
                 <div className="flex gap-4">
                   <button
                     onClick={() => handleEditHackathon(hackathon)}
-                    className="px-4 py-2 bg-[#00FF9D] hover:bg-[#00CC7D] text-[#17153B] rounded-lg transition-colors"
+                    className="bg-[#00FF9D] text-[#17153B] px-4 py-2 rounded-lg hover:bg-[#00CC7D] transition-colors"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => handleDeleteHackathon(hackathon.id)}
-                    className="px-4 py-2 bg-[#FF3A8C] hover:bg-[#FF1A6C] text-white rounded-lg transition-colors"
+                    className="px-4 py-2 text-white bg-red-500 rounded-lg transition-colors hover:bg-red-600"
                   >
                     Delete
-                  </button>
+                  </button>           
                 </div>
               </div>
             </div>
