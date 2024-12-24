@@ -21,10 +21,12 @@ const Admin = () => {
     maxParticipants: 4,
     skillsRequired: '',
     image: defaultHackathonImage,
-    status: 'upcoming', // upcoming, active, completed
+    status: 'upcoming',
     prize: '',
     city: '',
     location: '',
+    difficulty: 'Intermediate',
+    duration: '48 hours',
     participants: []
   });
 
@@ -41,6 +43,8 @@ const Admin = () => {
       prize: '',
       city: '',
       location: '',
+      difficulty: 'Intermediate',
+      duration: '48 hours',
       participants: []
     });
   };
@@ -327,6 +331,36 @@ const Admin = () => {
                       required
                     />
                   </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block mb-2 text-sm text-gray-400">Difficulty</label>
+                      <select
+                        name="difficulty"
+                        value={formData.difficulty}
+                        onChange={handleInputChange}
+                        className="w-full bg-[#2A2456] rounded-lg px-4 py-2 text-white border border-[#3D3580] focus:border-[#00FF9D] outline-none"
+                        required
+                      >
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Advanced">Advanced</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block mb-2 text-sm text-gray-400">Duration</label>
+                      <select
+                        name="duration"
+                        value={formData.duration}
+                        onChange={handleInputChange}
+                        className="w-full bg-[#2A2456] rounded-lg px-4 py-2 text-white border border-[#3D3580] focus:border-[#00FF9D] outline-none"
+                        required
+                      >
+                        <option value="24 hours">24 hours</option>
+                        <option value="48 hours">48 hours</option>
+                        <option value="72 hours">72 hours</option>
+                      </select>
+                    </div>
+                  </div>
                   <div>
                     <label className="block mb-2 text-sm text-gray-400">Status</label>
                     <select
@@ -400,6 +434,14 @@ const Admin = () => {
                     <div>
                       <p className="text-gray-400">Location:</p>
                       <p className="text-white">{hackathon.location}</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-400">Difficulty:</p>
+                      <p className="text-white">{hackathon.difficulty}</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-400">Duration:</p>
+                      <p className="text-white">{hackathon.duration}</p>
                     </div>
                   </div>
                 </div>

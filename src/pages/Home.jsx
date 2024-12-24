@@ -12,12 +12,19 @@ function App() {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+  const [hackathons, setHackathons] = useState([]);
 
   useEffect(() => {
     const user = getCurrentUser();
     setIsLoggedIn(!!user);
     setCurrentUser(user);
+    loadHackathons();
   }, []);
+
+  const loadHackathons = () => {
+    const storedHackathons = JSON.parse(localStorage.getItem('hackathons')) || [];
+    setHackathons(storedHackathons);
+  };
 
   const handleLogout = () => {
     logoutUser();
@@ -38,8 +45,8 @@ function App() {
     arrows: true,
   };
 
-  const handleEnterNow = () => {
-    navigate('/hackathon');
+  const handleEnterNow = (hackathon) => {
+    navigate('/hackathon', { state: { hackathon } });
   };
 
   const handleViewUser = () => {
@@ -119,22 +126,25 @@ function App() {
         </h1>
         <div className="max-w-[1400px] mx-auto relative px-24">
           <Slider {...settings}>
-            {[1, 2, 3, 4].map((item) => (
-              <div key={item} className="px-4">
+            {hackathons.map((hackathon) => (
+              <div key={hackathon.id} className="px-4">
                 <div className="flex overflow-hidden relative flex-col rounded-2xl shadow-lg backdrop-blur-md bg-white/10">
                   <div className="relative w-full h-[300px]">
-                    <img src={hackathonImage} alt="Hackathon" className="object-cover absolute inset-0 w-full h-full" />
+                    <img src={hackathon.image || hackathonImage} alt="Hackathon" className="object-cover absolute inset-0 w-full h-full" />
                     <div className="absolute top-4 right-4 bg-white/10 p-2 rounded-lg font-['Press_Start_2P'] text-sm text-white">FAQ</div>
                   </div>
                   <div className="bg-[rgba(44,43,88,0.95)] p-6 flex-grow flex flex-col gap-2 rounded-b-2xl">
-                    <h3 className="font-['Press_Start_2P'] text-white text-lg mb-4 tracking-wider">Hackathon Name</h3>
+                    <h3 className="font-['Press_Start_2P'] text-white text-lg mb-4 tracking-wider">{hackathon.title}</h3>
                     <div className="flex justify-between items-end mt-auto">
                       <div className="flex flex-col gap-2">
-                        <div className="text-white/60 font-['Electrolize'] text-sm tracking-wider">City, Location</div>
-                        <div className="text-white/60 font-['Electrolize'] text-sm tracking-wider">01/01/2025</div>
+                        <div className="text-white/60 font-['Electrolize'] text-sm tracking-wider">{hackathon.city}, {hackathon.location}</div>
+                        <div className="text-white/60 font-['Electrolize'] text-sm tracking-wider">{hackathon.startDate}</div>
                       </div>
-                      <button onClick={handleEnterNow} className="bg-[#1E1B45] text-white px-6 py-2 rounded-lg font-['Press_Start_2P'] text-sm 
-                      hover:bg-[#2A2B5F] transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95">
+                      <button 
+                        onClick={() => handleEnterNow(hackathon)} 
+                        className="bg-[#1E1B45] text-white px-6 py-2 rounded-lg font-['Press_Start_2P'] text-sm 
+                        hover:bg-[#2A2B5F] transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95"
+                      >
                         Enter Now
                       </button>
                     </div>

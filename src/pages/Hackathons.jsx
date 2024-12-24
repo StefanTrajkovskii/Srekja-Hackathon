@@ -126,6 +126,14 @@ const Hackathons = () => {
                       <p className="text-white capitalize">{hackathon.status}</p>
                     </div>
                     <div>
+                      <p className="text-gray-400">Difficulty:</p>
+                      <p className="text-white">{hackathon.difficulty || 'Intermediate'}</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-400">Duration:</p>
+                      <p className="text-white">{hackathon.duration || '48 hours'}</p>
+                    </div>
+                    <div>
                       <p className="text-gray-400">City:</p>
                       <p className="text-white">{hackathon.city}</p>
                     </div>

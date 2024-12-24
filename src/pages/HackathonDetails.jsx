@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import hackathonImage from '../assets/image.png';
 import userAvatar from '../assets/users_avatar.png';
 import { getCurrentUser, logoutUser } from '../utils/auth';
 
 function HackathonDetails() {
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const hackathon = state?.hackathon;
   const [focusedInput, setFocusedInput] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
@@ -14,7 +16,12 @@ function HackathonDetails() {
     const user = getCurrentUser();
     setIsLoggedIn(!!user);
     setCurrentUser(user);
-  }, []);
+
+    // Redirect if no hackathon data
+    if (!hackathon) {
+      navigate('/');
+    }
+  }, [navigate, hackathon]);
 
   const handleLogout = () => {
     logoutUser();
@@ -98,10 +105,10 @@ function HackathonDetails() {
       <div className="flex gap-24 justify-between items-center px-16 py-32">
         <div className="w-1/2 flex flex-col justify-center h-[600px]">
           <h1 className="font-['Press_Start_2P'] text-5xl text-white mb-4">
-            Hackathon Name
+            {hackathon?.title || 'Hackathon Name'}
           </h1>
           <p className="font-['Electrolize'] text-2xl leading-relaxed text-white/80">
-            A hackathon is an intense, collaborative event where participants come together to innovate, solve problems, and build projects in a limited amount of time—usually 24 to 48 hours. It brings together developers, designers, entrepreneurs, and tech enthusiasts to brainstorm ideas and turn them into functioning prototypes or solutions.
+            {hackathon?.description || 'A hackathon is an intense, collaborative event where participants come together to innovate, solve problems, and build projects in a limited amount of time—usually 24 to 48 hours. It brings together developers, designers, entrepreneurs, and tech enthusiasts to brainstorm ideas and turn them into functioning prototypes or solutions.'}
           </p>
         </div>
         <div className="w-1/2">
@@ -113,22 +120,22 @@ function HackathonDetails() {
         <div className="bg-[#1E1B48] rounded-2xl p-8 flex justify-between items-center w-[1200px] border-[3px] border-[#2D236B]" style={{ boxShadow: "4px 4px 4px 0 rgba(0,0,0,0.25)" }}>
           <div>
             <div className="font-['Press_Start_2P'] text-[#00A3FF] text-xl mb-2">When?</div>
-            <div className="font-['Electrolize'] text-white text-xl">20-12-2024, 9am</div>
+            <div className="font-['Electrolize'] text-white text-xl">{hackathon?.startDate || '20-12-2024, 9am'}</div>
           </div>
           <div className="w-px h-12 bg-gray-700"></div>
           <div>
             <div className="font-['Press_Start_2P'] text-[#00FF9D] text-xl mb-2">Duration?</div>
-            <div className="font-['Electrolize'] text-white text-xl">48 hours</div>
+            <div className="font-['Electrolize'] text-white text-xl">{hackathon?.duration || '48 hours'}</div>
           </div>
           <div className="w-px h-12 bg-gray-700"></div>
           <div>
             <div className="font-['Press_Start_2P'] text-[#FFD700] text-xl mb-2">Where?</div>
-            <div className="font-['Electrolize'] text-white text-xl">Srekja Bar, Skopje</div>
+            <div className="font-['Electrolize'] text-white text-xl">{hackathon?.location || 'Srekja Bar, Skopje'}</div>
           </div>
           <div className="w-px h-12 bg-gray-700"></div>
           <div>
             <div className="font-['Press_Start_2P'] text-[#FF0000] text-xl mb-2">Difficulty?</div>
-            <div className="font-['Electrolize'] text-white text-xl">Advanced</div>
+            <div className="font-['Electrolize'] text-white text-xl">{hackathon?.difficulty || 'Advanced'}</div>
           </div>
         </div>
       </div>
