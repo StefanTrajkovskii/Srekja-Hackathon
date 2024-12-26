@@ -98,7 +98,7 @@ function App() {
                     src={currentUser?.profilePicture || userAvatar} 
                     alt="Profile" 
                     className="w-8 h-8 rounded-full border border-[#00FF9D] object-cover cursor-pointer hover:border-2 transition-all duration-200"
-                    onClick={() => navigate('/account')}
+                    onClick={() => navigate('/account')} 
                   />
                   <span className="font-['Press_Start_2P'] text-[#00FF9D] text-sm">
                     {currentUser?.username}{currentUser?.username === 'stif' ? ' (admin)' : ''}
