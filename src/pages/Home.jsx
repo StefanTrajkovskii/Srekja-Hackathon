@@ -13,17 +13,45 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [hackathons, setHackathons] = useState([]);
+  const [registeredUsers, setRegisteredUsers] = useState([]);
 
   useEffect(() => {
     const user = getCurrentUser();
     setIsLoggedIn(!!user);
     setCurrentUser(user);
     loadHackathons();
+    loadRegisteredUsers();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadHackathons = () => {
     const storedHackathons = JSON.parse(localStorage.getItem('hackathons')) || [];
     setHackathons(storedHackathons);
+  };
+
+  const loadRegisteredUsers = () => {
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const currentUserEmail = currentUser?.email;
+    
+    // Filter out current user and ensure all required fields exist
+    const processedUsers = users
+      .filter(user => user.email !== currentUserEmail)
+      .map(user => ({
+        ...user,
+        username: user.username || 'Anonymous',
+        skills: Array.isArray(user.skills) ? user.skills : ['Web Developer', 'Programming'],
+        profilePicture: user.profilePicture || null,
+        fullName: user.fullName || ''
+      }));
+
+    setRegisteredUsers(processedUsers);
+  };
+
+  const getUserStats = (userEmail) => {
+    const allHackathons = JSON.parse(localStorage.getItem('hackathons')) || [];
+    const participations = allHackathons.filter(h => h.participants?.some(p => p.email === userEmail)).length;
+    const wins = allHackathons.filter(h => h.participants?.[0]?.email === userEmail).length;
+    return { participations, wins };
   };
 
   const handleLogout = () => {
@@ -49,6 +77,7 @@ function App() {
     navigate('/hackathon', { state: { hackathon } });
   };
 
+  // eslint-disable-next-line no-unused-vars
   const handleViewUser = () => {
     navigate('/user');
   };
@@ -326,37 +355,49 @@ function App() {
         </div>
 
         <div className="grid grid-cols-3 gap-16 max-w-[1400px] mx-auto">
-          {[1, 2, 3, 4, 5, 6].map((item) => (
-            <div key={item} className="bg-[#1E1B48] rounded-3xl overflow-hidden flex flex-col items-center p-8 relative backdrop-blur-md shadow-lg border-[3px] border-[#2D236B] min-w-[380px]">
-              <div className="w-28 h-28 rounded-full overflow-hidden mb-6 bg-[#8BB9FF]">
-                <img src={userAvatar} alt="User" className="object-cover w-full h-full" />
-              </div>
-              <div className="text-center mb-6 w-[400px]">
-                <h3 className="font-['Press_Start_2P'] text-white text-base tracking-[0.2em]">John</h3>
-                <h3 className="font-['Press_Start_2P'] text-white text-base tracking-[0.2em]">Collins</h3>
-              </div>
-              <div className="font-['Press_Start_2P'] text-white/60 text-sm mb-8 text-center leading-6 tracking-[0.2em] w-[400px]">
-                Full-stack<br />
-                Web Developer<br />
-                3D Game<br />
-                Programming
-              </div>
-              <div className="flex gap-16 justify-center mb-8">
-                <div className="flex flex-col items-center">
-                  <span className="font-['Press_Start_2P'] text-[#0088FF] text-2xl mb-1">4</span>
-                  <span className="font-['Press_Start_2P'] text-white/60 text-[10px]">Participations</span>
+          {registeredUsers.map((user) => {
+            const { participations, wins } = getUserStats(user.email);
+            return (
+              <div key={user.email} className="bg-[#1E1B48] rounded-3xl overflow-hidden flex flex-col items-center p-8 relative backdrop-blur-md shadow-lg border-[3px] border-[#2D236B] min-w-[380px]">
+                <div className="w-28 h-28 rounded-full overflow-hidden mb-6 bg-[#8BB9FF]">
+                  <img src={user.profilePicture || userAvatar} alt={user.username} className="object-cover w-full h-full" />
                 </div>
-                <div className="flex flex-col items-center">
-                  <span className="font-['Press_Start_2P'] text-[#00FF9D] text-2xl mb-1">2</span>
-                  <span className="font-['Press_Start_2P'] text-white/60 text-[10px]">Wins</span>
+                <div className="text-center mb-6 w-[400px]">
+                  <h3 className="font-['Press_Start_2P'] text-white text-base tracking-[0.2em]">{user.username}</h3>
+                  <h3 className="font-['Press_Start_2P'] text-white text-base tracking-[0.2em]">{user.fullName || ''}</h3>
                 </div>
+                <div className="font-['Press_Start_2P'] text-white/60 text-sm mb-8 text-center leading-6 tracking-[0.2em] w-[400px]">
+                  {Array.isArray(user.skills) ? user.skills.slice(0, 4).map((skill, index) => (
+                    <React.Fragment key={index}>
+                      {skill}<br />
+                    </React.Fragment>
+                  )) : (
+                    <>
+                      Web Developer<br />
+                      Programming<br />
+                    </>
+                  )}
+                </div>
+                <div className="flex gap-16 justify-center mb-8">
+                  <div className="flex flex-col items-center">
+                    <span className="font-['Press_Start_2P'] text-[#0088FF] text-2xl mb-1">{participations}</span>
+                    <span className="font-['Press_Start_2P'] text-white/60 text-[10px]">Participations</span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <span className="font-['Press_Start_2P'] text-[#00FF9D] text-2xl mb-1">{wins}</span>
+                    <span className="font-['Press_Start_2P'] text-white/60 text-[10px]">Wins</span>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => navigate(`/user/${user.username}`)} 
+                  className="bg-white text-[#17153B] w-40 py-2 rounded-lg font-['Press_Start_2P'] text-xs 
+                  hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95"
+                >
+                  Connect
+                </button>
               </div>
-              <button onClick={handleViewUser} className="bg-white text-[#17153B] w-40 py-2 rounded-lg font-['Press_Start_2P'] text-xs 
-              hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95">
-                Connect
-              </button>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
