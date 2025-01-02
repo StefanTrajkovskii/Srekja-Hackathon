@@ -267,84 +267,48 @@ function App() {
       </section>
 
       <section className="px-8 py-16">
-        <h2 className="font-['Electrolize'] text-6xl mb-8 mt-8 text-center text-white font-normal">Find your hackathon</h2>
-        
-        <div className="flex gap-8 justify-center items-center mt-24 mb-16">
-          <span className="font-['Press_Start_2P'] text-xl text-white">Filter by</span>
-          <button className="bg-white text-xl rounded-lg px-6 py-3 font-['Electrolize'] text-[#17153B] flex items-center gap-2 
-          hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95">
-            Newest
-            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
-          </button>
-          <button className="bg-white text-xl rounded-lg px-6 py-3 font-['Electrolize'] text-[#17153B] flex items-center gap-2 
-          hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95">
-            Difficulty
-            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
-          </button>
-          <button className="bg-white text-xl rounded-lg px-6 py-3 font-['Electrolize'] text-[#17153B] flex items-center gap-2 
-          hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95">
-            Longest
-            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
-          </button>
-          <button className="bg-white text-xl rounded-lg px-6 py-3 font-['Electrolize'] text-[#17153B] flex items-center gap-2 
-          hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95">
-            Capacity
-            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
-          </button>
-        </div>
-
-        <div className="grid grid-cols-3 gap-24 max-w-[1200px] mx-auto">
-          {[1, 2, 3, 4, 5, 6].map((item) => (
-            <div key={item} className="flex overflow-hidden relative flex-col rounded-2xl shadow-lg backdrop-blur-md bg-white/10">
-              <div className="flex relative flex-col justify-center items-center text-center aspect-video">
-                <img src={hackathonImage} alt="Hackathon" className="object-contain w-full h-full" />
-                <div className="absolute top-4 right-4 bg-white/10 p-2 rounded-lg font-['Press_Start_2P'] text-sm text-white">FAQ</div>
-              </div>
-              <div className="bg-[rgba(44,43,88,0.95)] p-6 flex-grow flex flex-col gap-2 rounded-b-2xl">
-                <h3 className="font-['Press_Start_2P'] text-white text-lg mb-4 tracking-wider">Hackathon Name</h3>
-                <div className="flex justify-between items-end mt-auto">
-                  <div className="flex flex-col gap-2">
-                    <div className="text-white/60 font-['Electrolize'] text-sm tracking-wider">City, Location</div>
-                    <div className="text-white/60 font-['Electrolize'] text-sm tracking-wider">01/01/2025</div>
+        <h2 className="font-['Electrolize'] text-6xl mb-8 text-center text-white font-normal">Find your hackathon</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-[1400px] mx-auto mb-12">
+          {hackathons.slice(0, 6).map((hackathon) => (
+            <div key={hackathon.id} className="px-4">
+                <div className="flex overflow-hidden relative flex-col rounded-2xl shadow-lg backdrop-blur-md bg-white/10">
+                  <div className="relative w-full h-[300px]">
+                    <img src={hackathon.image || hackathonImage} alt="Hackathon" className="object-cover absolute inset-0 w-full h-full" />
+                    <div className="absolute top-4 right-4 bg-white/10 p-2 rounded-lg font-['Press_Start_2P'] text-sm text-white">FAQ</div>
                   </div>
-                  <button onClick={handleEnterNow} className="bg-[#1E1B45] text-white px-6 py-2 rounded-lg font-['Press_Start_2P'] text-sm 
-                  hover:bg-[#2A2B5F] transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95">
-                    Enter Now
-                  </button>
+                  <div className="bg-[rgba(44,43,88,0.95)] p-6 flex-grow flex flex-col gap-2 rounded-b-2xl">
+                    <h3 className="font-['Press_Start_2P'] text-white text-lg mb-4 tracking-wider">{hackathon.title}</h3>
+                    <div className="flex justify-between items-end mt-auto">
+                      <div className="flex flex-col gap-2">
+                        <div className="text-white/60 font-['Electrolize'] text-sm tracking-wider">{hackathon.city}, {hackathon.location}</div>
+                        <div className="text-white/60 font-['Electrolize'] text-sm tracking-wider">{formatDate(hackathon.startDate)}</div>
+                      </div>
+                      <button 
+                        onClick={() => handleEnterNow(hackathon)} 
+                        className="bg-[#1E1B45] text-white px-6 py-2 rounded-lg font-['Press_Start_2P'] text-sm 
+                        hover:bg-[#2A2B5F] transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95"
+                      >
+                        Enter Now
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
           ))}
+        </div>
+        
+        <div className="flex justify-center">
+          <button
+            onClick={() => navigate('/hackathons')}
+            className="bg-[#00FF9D] text-[#17153B] px-8 py-3 rounded-lg font-['Press_Start_2P'] text-lg hover:bg-[#33FEB1] transition-all duration-300 transform hover:scale-105 hover:shadow-lg shadow-[#00FF9D]/20"
+          >
+            Show All Hackathons
+          </button>
         </div>
       </section>
 
       <section className="px-8 py-16">
         <h2 className="font-['Electrolize'] text-6xl mb-8 mt-8 text-center text-white font-normal">Connect with another user</h2>
-        
-        <div className="flex gap-8 justify-center items-center mt-24 mb-16">
-          <span className="font-['Press_Start_2P'] text-xl text-white">Filter by</span>
-          <button className="bg-white text-xl rounded-lg px-6 py-3 font-['Electrolize'] text-[#17153B] flex items-center gap-2 hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95">
-            Most Wins
-            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
-          </button>
-          <button className="bg-white text-xl rounded-lg px-6 py-3 font-['Electrolize'] text-[#17153B] flex items-center gap-2 hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95">
-            Category
-            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
-          </button>
-        </div>
-
         <div className="grid grid-cols-3 gap-16 max-w-[1400px] mx-auto mb-12">
           {registeredUsers.slice(0, 6).map((user) => {
             const { participations, wins } = getUserStats(user.email);
