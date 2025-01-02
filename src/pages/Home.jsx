@@ -37,6 +37,7 @@ function App() {
     const processedUsers = users
       .filter(user => user.email !== currentUserEmail)
       .map(user => ({
+
         ...user,
         username: user.username || 'Anonymous',
         skills: Array.isArray(user.skills) ? user.skills : ['Web Developer', 'Programming'],
@@ -97,12 +98,13 @@ function App() {
   return (
     <div className="bg-gradient-to-b from-[#17153B] to-[#2E236C] min-h-screen text-white font-['Press_Start_2P']">
       <header className="flex justify-between items-center px-16 py-8">
-        <div className="text-xl text-white cursor-pointer whitespace-nowrap font-['Press_Start_2P']" onClick={() => navigate('/')}>
+        <div className="text-xl text-white cursor-pointer whitespace-nowrap font-['Press_Start_2P']" onClick={() => navigate('/')} >
           Hackathon Arena
         </div>
         <nav className="flex gap-8 items-center">
           {isLoggedIn ? (
             <>
+
               <button 
                 onClick={() => navigate('/hackathons')}
                 className="font-['Press_Start_2P'] text-[#FFD700] hover:text-[#FFE44D] transition-colors px-4 py-2 rounded-lg hover:bg-[#17153B]"
@@ -143,6 +145,7 @@ function App() {
             </>
           ) : (
             <>
+
               <button 
                 onClick={() => navigate('/login')}
                 className="font-['Press_Start_2P'] text-white bg-[#4A3AFF] hover:bg-[#7C3AFF] transition-colors px-6 py-2 rounded-lg hover:scale-105 transform duration-200"
@@ -340,22 +343,10 @@ function App() {
               <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
             </svg>
           </button>
-          <button className="bg-white text-xl rounded-lg px-6 py-3 font-['Electrolize'] text-[#17153B] flex items-center gap-2 hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95">
-            Skills
-            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
-          </button>
-          <button className="bg-white text-xl rounded-lg px-6 py-3 font-['Electrolize'] text-[#17153B] flex items-center gap-2 hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg active:scale-95">
-            React
-            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
-          </button>
         </div>
 
-        <div className="grid grid-cols-3 gap-16 max-w-[1400px] mx-auto">
-          {registeredUsers.map((user) => {
+        <div className="grid grid-cols-3 gap-16 max-w-[1400px] mx-auto mb-12">
+          {registeredUsers.slice(0, 6).map((user) => {
             const { participations, wins } = getUserStats(user.email);
             return (
               <div key={user.email} className="bg-[#1E1B48] rounded-3xl overflow-hidden flex flex-col items-center p-8 relative backdrop-blur-md shadow-lg border-[3px] border-[#2D236B] min-w-[380px]">
@@ -398,6 +389,15 @@ function App() {
               </div>
             );
           })}
+        </div>
+
+        <div className="flex justify-center">
+          <button
+            onClick={() => navigate('/users')}
+            className="bg-[#00FF9D] text-[#17153B] px-8 py-3 rounded-lg font-['Press_Start_2P'] text-lg hover:bg-[#33FEB1] transition-all duration-300 transform hover:scale-105 hover:shadow-lg shadow-[#00FF9D]/20"
+          >
+            Show All Users
+          </button>
         </div>
       </section>
 
