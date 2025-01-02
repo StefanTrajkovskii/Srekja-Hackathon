@@ -267,7 +267,7 @@ function App() {
       </section>
 
       <section className="px-8 py-16">
-        <h2 className="font-['Electrolize'] text-6xl mb-8 text-center text-white font-normal">Find your hackathon</h2>
+        <h2 className="font-['Electrolize'] text-6xl mb-16 mt-12 text-center text-white font-normal">Find your hackathon</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-[1400px] mx-auto mb-12">
           {hackathons.slice(0, 6).map((hackathon) => (
             <div key={hackathon.id} className="px-4">
@@ -308,7 +308,7 @@ function App() {
       </section>
 
       <section className="px-8 py-16">
-        <h2 className="font-['Electrolize'] text-6xl mb-8 mt-8 text-center text-white font-normal">Connect with another user</h2>
+        <h2 className="font-['Electrolize'] text-6xl mb-16 mt-12 text-center text-white font-normal">Connect with another user</h2>
         <div className="grid grid-cols-3 gap-16 max-w-[1400px] mx-auto mb-12">
           {registeredUsers.slice(0, 6).map((user) => {
             const { participations, wins } = getUserStats(user.email);
