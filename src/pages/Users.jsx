@@ -124,10 +124,10 @@ function Users() {
         </nav>
       </header>
 
-      <main className="container mx-auto px-6 py-12">
-        <h1 className="text-4xl text-center mb-12 text-[#FFE44D]">Users</h1>
+      <main className="container px-6 py-12 mx-auto">
+        <h1 className="text-4xl text-center mb-12 text-[#00FF9D]">Users</h1>
         
-        <div className="flex flex-col md:flex-row gap-6 justify-between items-center mb-12">
+        <div className="flex flex-col gap-6 justify-between items-center mb-12 md:flex-row">
           <input
             type="text"
             placeholder="Search users..."
@@ -146,10 +146,10 @@ function Users() {
           </select>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {filteredUsers.length === 0 ? (
-            <div className="col-span-3 text-center py-16">
-              <h2 className="text-2xl mb-4">No Users Found</h2>
+            <div className="col-span-3 py-16 text-center">
+              <h2 className="mb-4 text-2xl">No Users Found</h2>
               <p className="text-white/60">Try adjusting your search or filter criteria</p>
             </div>
           ) : (
@@ -167,16 +167,16 @@ function Users() {
                   />
                   <h3 className="text-xl mb-2 text-[#00FF9D]">{user.username}</h3>
                   {user.fullName && (
-                    <p className="text-white/60 mb-4">{user.fullName}</p>
+                    <p className="mb-4 text-white/60">{user.fullName}</p>
                   )}
                   <div className="flex gap-8 mb-6">
                     <div className="text-center">
                       <p className="text-2xl text-[#00FF9D]">{participated}</p>
-                      <p className="text-white/60 text-xs mt-1">Participated</p>
+                      <p className="mt-1 text-xs text-white/60">Participated</p>
                     </div>
                     <div className="text-center">
                       <p className="text-2xl text-[#FFE44D]">{wins}</p>
-                      <p className="text-white/60 text-xs mt-1">Wins</p>
+                      <p className="mt-1 text-xs text-white/60">Wins</p>
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-2 justify-center mb-6">

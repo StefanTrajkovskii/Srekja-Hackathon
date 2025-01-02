@@ -3,23 +3,23 @@ import { useNavigate } from 'react-router-dom';
 import { getCurrentUser, logoutUser } from '../utils/auth';
 import userAvatar from '../assets/users_avatar.png';
 
-const Hackathons = () => {
+function Hackathons() {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [hackathons, setHackathons] = useState([]);
   const [showParticipants, setShowParticipants] = useState(false);
   const [selectedHackathon, setSelectedHackathon] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedDifficulty, setSelectedDifficulty] = useState('All');
 
   useEffect(() => {
     const user = getCurrentUser();
-    if (!user) {
-      navigate('/login');
-      return;
-    }
+    setIsLoggedIn(!!user);
     setCurrentUser(user);
     loadHackathons();
-  }, [navigate]);
+  }, []);
 
   const loadHackathons = () => {
     const storedHackathons = JSON.parse(localStorage.getItem('hackathons')) || [];
@@ -28,7 +28,9 @@ const Hackathons = () => {
 
   const handleLogout = () => {
     logoutUser();
-    navigate('/login');
+    setIsLoggedIn(false);
+    setCurrentUser(null);
+    navigate('/');
   };
 
   const handleJoinHackathon = (hackathon) => {
@@ -40,7 +42,6 @@ const Hackathons = () => {
       return;
     }
 
-    // Check if user is already registered
     const isAlreadyRegistered = storedHackathons[hackathonIndex].participants?.some(
       participant => participant.email === currentUser.email
     );
@@ -50,7 +51,6 @@ const Hackathons = () => {
       return;
     }
 
-    // Add user to participants
     const participant = {
       email: currentUser.email,
       username: currentUser.username,
@@ -62,7 +62,6 @@ const Hackathons = () => {
       participant
     ];
 
-    // Save updated hackathons
     localStorage.setItem('hackathons', JSON.stringify(storedHackathons));
     setHackathons(storedHackathons);
     setErrorMessage('Successfully joined the hackathon!');
@@ -76,7 +75,6 @@ const Hackathons = () => {
 
   const formatDate = (dateString) => {
     if (!dateString) return '';
-    // If it's already in DD/MM/YYYY format, return as is
     if (dateString.includes('/')) return dateString;
     
     const date = new Date(dateString);
@@ -86,6 +84,13 @@ const Hackathons = () => {
     return `${day}/${month}/${year}`;
   };
 
+  const filteredHackathons = hackathons.filter(hackathon => {
+    const matchesSearch = hackathon.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         hackathon.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesDifficulty = selectedDifficulty === 'All' || hackathon.difficulty === selectedDifficulty;
+    return matchesSearch && matchesDifficulty;
+  });
+
   return (
     <div className="bg-gradient-to-b from-[#17153B] to-[#2E236C] min-h-screen text-white font-['Press_Start_2P']">
       <header className="flex justify-between items-center px-16 py-8">
@@ -93,7 +98,7 @@ const Hackathons = () => {
           Hackathon Arena
         </div>
         <nav className="flex gap-8 items-center">
-          {currentUser ? (
+          {isLoggedIn ? (
             <>
               <button 
                 onClick={() => navigate('/hackathons')}
@@ -119,7 +124,7 @@ const Hackathons = () => {
                     src={currentUser?.profilePicture || userAvatar} 
                     alt="Profile" 
                     className="w-8 h-8 rounded-full border border-[#00FF9D] object-cover cursor-pointer hover:border-2 transition-all duration-200"
-                    onClick={() => navigate('/account')}
+                    onClick={() => navigate('/account')} 
                   />
                   <span className="font-['Press_Start_2P'] text-[#00FF9D] text-sm">
                     {currentUser?.username}{currentUser?.username === 'stif' ? ' (admin)' : ''}
@@ -141,156 +146,179 @@ const Hackathons = () => {
               >
                 Login
               </button>
-              <button 
-                onClick={() => navigate('/register')}
-                className="font-['Press_Start_2P'] text-white bg-gradient-to-r from-[#FF3A8C] to-[#FF3AFF] hover:from-[#FF3AFF] hover:to-[#FF3A8C] transition-all px-6 py-2 rounded-lg hover:scale-105 transform duration-200"
-              >
-                Register
-              </button>
             </>
           )}
         </nav>
       </header>
 
-      <main className="container px-16 py-12 mx-auto">
+      <main className="container mx-auto px-6 py-12">
+        <h1 className="text-4xl text-center mb-12 text-[#FFE44D]">Hackathons</h1>
+
         {errorMessage && (
           <div className={`fixed top-4 right-4 p-4 rounded-lg ${
             errorMessage.includes('Successfully') ? 'bg-green-500/10 border-green-500 text-green-500' : 'bg-red-500/10 border-red-500 text-red-500'
-          } border font-['Press_Start_2P'] text-sm`}>
+          } border font-['Press_Start_2P'] text-sm z-50`}>
             {errorMessage}
           </div>
         )}
+        
+        <div className="flex flex-col md:flex-row gap-6 justify-between items-center mb-12">
+          <input
+            type="text"
+            placeholder="Search hackathons..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="bg-[#1E1B48] text-white px-6 py-3 rounded-lg w-full md:w-96 focus:outline-none focus:ring-2 focus:ring-[#00FF9D] transition-all"
+          />
+          <select
+            value={selectedDifficulty}
+            onChange={(e) => setSelectedDifficulty(e.target.value)}
+            className="bg-[#1E1B48] text-white px-6 py-3 rounded-lg w-full md:w-64 focus:outline-none focus:ring-2 focus:ring-[#00FF9D] transition-all"
+          >
+            <option value="All">All Difficulties</option>
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
+          </select>
+        </div>
 
-        <h1 className="text-2xl text-[#00FF9D] mb-8">Available Hackathons</h1>
+        <div className="grid grid-cols-1 gap-8">
+          {filteredHackathons.length === 0 ? (
+            <div className="text-center py-16">
+              <h2 className="text-2xl mb-4">No Hackathons Found</h2>
+              <p className="text-white/60">Try adjusting your search or filter criteria</p>
+            </div>
+          ) : (
+            filteredHackathons.map(hackathon => (
+              <div
+                key={hackathon.id}
+                className="bg-[#1E1B48] rounded-xl p-8 transform hover:scale-[1.02] transition-all duration-300 hover:shadow-lg hover:shadow-[#00FF9D]/20"
+              >
+                <div className="flex flex-col gap-6">
+                  <div>
+                    <h3 className="text-2xl text-[#00FF9D] mb-4">{hackathon.title}</h3>
+                    <p className="text-white/80 mb-6">{hackathon.description}</p>
+                  </div>
 
-        <div className="grid grid-cols-1 gap-6">
-          {hackathons.map(hackathon => (
-            <div
-              key={hackathon.id}
-              className="bg-[#1F1B4B] rounded-xl p-6 border border-[#3D3580] hover:border-[#00FF9D] transition-colors duration-200"
-            >
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="text-xl text-[#00FF9D] mb-2">{hackathon.title}</h3>
-                  <p className="mb-4 text-gray-400">{hackathon.description}</p>
-                  <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
-                    <div>
-                      <p className="text-gray-400">Start Date:</p>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div className="bg-[#17153B] p-4 rounded-lg">
+                      <p className="text-[#FFE44D] text-sm mb-2">Start Date</p>
                       <p className="text-white">{formatDate(hackathon.startDate)}</p>
                     </div>
-                    <div>
-                      <p className="text-gray-400">End Date:</p>
+                    <div className="bg-[#17153B] p-4 rounded-lg">
+                      <p className="text-[#FFE44D] text-sm mb-2">End Date</p>
                       <p className="text-white">{formatDate(hackathon.endDate)}</p>
                     </div>
-                    <div>
-                      <p className="text-gray-400">Participants:</p>
+                    <div className="bg-[#17153B] p-4 rounded-lg">
+                      <p className="text-[#FFE44D] text-sm mb-2">Participants</p>
                       <p className="text-white">{hackathon.participants?.length || 0} / {hackathon.maxParticipants}</p>
                     </div>
-                    <div>
-                      <p className="text-gray-400">Status:</p>
+                    <div className="bg-[#17153B] p-4 rounded-lg">
+                      <p className="text-[#FFE44D] text-sm mb-2">Status</p>
                       <p className="text-white capitalize">{hackathon.status}</p>
                     </div>
-                    <div>
-                      <p className="text-gray-400">Difficulty:</p>
+                    <div className="bg-[#17153B] p-4 rounded-lg">
+                      <p className="text-[#FFE44D] text-sm mb-2">Difficulty</p>
                       <p className="text-white">{hackathon.difficulty}</p>
                     </div>
-                    <div>
-                      <p className="text-gray-400">Duration:</p>
+                    <div className="bg-[#17153B] p-4 rounded-lg">
+                      <p className="text-[#FFE44D] text-sm mb-2">Duration</p>
                       <p className="text-white">{hackathon.duration}</p>
                     </div>
-                    <div>
-                      <p className="text-gray-400">City:</p>
-                      <p className="text-white">{hackathon.city}</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-400">Location:</p>
-                      <p className="text-white">{hackathon.location}</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-400">Prize:</p>
+                    <div className="bg-[#17153B] p-4 rounded-lg">
+                      <p className="text-[#FFE44D] text-sm mb-2">Prize</p>
                       <p className="text-white">{hackathon.prize}</p>
                     </div>
-                    <div>
-                      <p className="text-gray-400">Skills Required:</p>
-                      <p className="text-white">{hackathon.skillsRequired}</p>
+                    <div className="bg-[#17153B] p-4 rounded-lg">
+                      <p className="text-[#FFE44D] text-sm mb-2">Location</p>
+                      <p className="text-white">{hackathon.city}, {hackathon.location}</p>
                     </div>
+                  </div>
+
+                  <div className="flex flex-wrap gap-4 mt-2">
+                    {hackathon.skillsRequired?.split(',').map((skill, index) => (
+                      <span 
+                        key={index}
+                        className="bg-[#2D236B] text-white/80 px-4 py-1 rounded-full text-xs"
+                      >
+                        {skill.trim()}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="flex flex-wrap gap-4 mt-4">
+                    <button
+                      onClick={() => handleJoinHackathon(hackathon)}
+                      className={`px-8 py-3 rounded-lg transition-all duration-200 transform hover:scale-105 ${
+                        hackathon.participants?.some(p => p.email === currentUser?.email)
+                          ? 'bg-[#2D236B] cursor-not-allowed'
+                          : hackathon.participants?.length >= hackathon.maxParticipants
+                          ? 'bg-[#2D236B] cursor-not-allowed'
+                          : 'bg-[#00FF9D] text-[#17153B] hover:bg-[#33FEB1]'
+                      }`}
+                      disabled={
+                        hackathon.participants?.some(p => p.email === currentUser?.email) ||
+                        hackathon.participants?.length >= hackathon.maxParticipants
+                      }
+                    >
+                      {hackathon.participants?.some(p => p.email === currentUser?.email)
+                        ? 'Already Joined'
+                        : hackathon.participants?.length >= hackathon.maxParticipants
+                        ? 'Full'
+                        : 'Join Now'}
+                    </button>
+                    <button
+                      onClick={() => navigate('/hackathon', { state: { hackathon } })}
+                      className="px-8 py-3 bg-[#FF3A8C] text-white rounded-lg hover:bg-[#FF3AFF] transition-all duration-200 transform hover:scale-105"
+                    >
+                      View Details
+                    </button>
+                    <button
+                      onClick={() => handleShowParticipants(hackathon)}
+                      className="px-8 py-3 bg-[#2D236B] text-white rounded-lg hover:bg-[#3D337B] transition-all duration-200 transform hover:scale-105"
+                    >
+                      View Participants ({hackathon.participants?.length || 0})
+                    </button>
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col gap-4 mt-6">
-                <div className="flex gap-4">
-                  <button
-                    onClick={() => handleJoinHackathon(hackathon)}
-                    className={`px-6 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 ${
-                      hackathon.participants?.some(p => p.email === currentUser?.email)
-                        ? 'bg-gray-600 cursor-not-allowed'
-                        : hackathon.participants?.length >= hackathon.maxParticipants
-                        ? 'bg-gray-600 cursor-not-allowed'
-                        : 'bg-gradient-to-r from-[#00FF9D] to-[#00CC7D] hover:from-[#00CC7D] hover:to-[#00AA5D] hover:shadow-[0_0_15px_rgba(0,255,157,0.5)]'
-                    }`}
-                    disabled={
-                      hackathon.participants?.some(p => p.email === currentUser?.email) ||
-                      hackathon.participants?.length >= hackathon.maxParticipants
-                    }
-                  >
-                    {hackathon.participants?.some(p => p.email === currentUser?.email)
-                      ? 'Joined'
-                      : hackathon.participants?.length >= hackathon.maxParticipants
-                      ? 'Full'
-                      : 'Join Now'}
-                  </button>
-                  <button
-                    onClick={() => navigate('/hackathon', { state: { hackathon } })}
-                    className="px-6 py-2 bg-gradient-to-r from-[#FF3A8C] to-[#FF1A6C] text-white rounded-lg transition-all duration-200 hover:from-[#FF1A6C] hover:to-[#FF0A5C] hover:shadow-[0_0_15px_rgba(255,58,140,0.5)] transform hover:scale-105"
-                  >
-                    View Details
-                  </button>
-                  <button
-                    onClick={() => handleShowParticipants(hackathon)}
-                    className="px-6 py-2 bg-gradient-to-r from-[#3D3580] to-[#2D2660] text-white rounded-lg transition-all duration-200 hover:from-[#2D2660] hover:to-[#1D1640] hover:shadow-[0_0_15px_rgba(61,53,128,0.5)] transform hover:scale-105"
-                  >
-                    Participants ({hackathon.participants?.length || 0})
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </main>
 
       {/* Participants Modal */}
       {showParticipants && selectedHackathon && (
-        <div className="flex fixed inset-0 z-50 justify-center items-center bg-black/50">
-          <div className="bg-[#1F1B4B] rounded-xl p-8 w-[600px] border border-[#3D3580] max-h-[80vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="text-2xl text-[#00FF9D]">
-                Participants
-              </h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-[#1E1B48] rounded-xl p-8 w-[600px] max-h-[80vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-8">
+              <h3 className="text-2xl text-[#00FF9D]">Participants</h3>
               <button
                 onClick={() => setShowParticipants(false)}
-                className="transition-all duration-200 transform text-white/60 hover:text-white hover:scale-105"
+                className="text-white/60 hover:text-white transition-colors text-2xl"
               >
-                ✕
+                ×
               </button>
             </div>
             
             {selectedHackathon.participants && selectedHackathon.participants.length > 0 ? (
               <div className="space-y-4">
                 {selectedHackathon.participants.map((participant, index) => (
-                  <div key={index} className="bg-[#17153C] rounded-lg p-4 border border-[#3D3580]">
+                  <div 
+                    key={index}
+                    className="bg-[#17153B] rounded-lg p-4 hover:bg-[#1A1840] transition-colors"
+                  >
                     <div className="flex justify-between items-center">
-                      <div>
-                        <div className="text-[#00FF9D] mb-1">{participant.username}</div>
-                      </div>
-                      <div className="text-sm text-gray-400">
+                      <span className="text-[#00FF9D]">{participant.username}</span>
+                      <span className="text-white/60 text-sm">
                         Joined: {formatDate(participant.joinedAt)}
-                      </div>
+                      </span>
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="py-8 text-center text-white/60">
+              <div className="text-center py-8 text-white/60">
                 No participants yet
               </div>
             )}
@@ -299,6 +327,6 @@ const Hackathons = () => {
       )}
     </div>
   );
-};
+}
 
 export default Hackathons;
