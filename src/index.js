@@ -10,6 +10,7 @@ import HackathonDetails from './pages/HackathonDetails';
 import Account from './pages/Account';
 import Admin from './pages/Admin';
 import Hackathons from './pages/Hackathons';
+import Users from './pages/Users';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -20,6 +21,7 @@ root.render(
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/user" element={<UserDetails />} />
+        <Route path="/users" element={<Users />} />
         <Route path="/hackathon" element={<HackathonDetails />} />
         <Route path="/account" element={<Account />} />
         <Route path="/admin" element={<Admin />} />
